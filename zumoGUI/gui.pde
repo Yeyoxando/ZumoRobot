@@ -13,9 +13,10 @@
  * Do not rename this tab!
  * =========================================================
  */
-
+/*
 public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:221725:
   println("button1 - GButton >> GEvent." + event + " @ " + millis());
+  
 } //_CODE_:button1:221725:
 
 public void button2_click1(GButton source, GEvent event) { //_CODE_:button2:819618:
@@ -62,4 +63,4 @@ public void createGUI(){
 GButton button1; 
 GButton button2; 
 GButton button3; 
-GButton button4; 
+GButton button4; */

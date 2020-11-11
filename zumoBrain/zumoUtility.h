@@ -40,9 +40,9 @@ public:
   void UpdateZumo();
   
   // Interpolates current speed to the given speed by parameter
-  void UpdateMotorSpeed(int speed_to_reach, ZumoMotors motors);
+  void UpdateMotorSpeed(int speed_to_reach, ZumoMotors zumo_motors);
   // Set directly a new speed for the motors
-  void SetMotorSpeed(int new_speed, ZumoMotors motors);
+  void SetMotorSpeed(int new_speed, ZumoMotors zumo_motors);
   // Rotates the zumo robot to a given angle
   void RotateToAngle(int angle);
   // Rotates the zumo robot from its current rotation plus the given degrees
@@ -58,6 +58,7 @@ private:
   ZumoState current_state;
   int current_left_speed;
   int current_right_speed;
+  int incoming_byte;
 
   Zumo32U4Buzzer buzzer;
   Zumo32U4Motors motors;

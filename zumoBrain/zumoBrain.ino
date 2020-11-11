@@ -1,11 +1,19 @@
+// Author: Diego Ochando Torres
+// Date: 10/11/2020
+// e-mail: c0022981@my.shu.ac.uk
+
 #include "zumoUtility.h"
 
+ZumoRobot zumo;
+
 void setup() {
-  // put your setup code here, to run once:
+  
+  zumo.InitializeZumo();
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
+  zumo.UpdateZumo();
 
 }

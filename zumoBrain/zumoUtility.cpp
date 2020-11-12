@@ -7,10 +7,6 @@
 // ----------------------------------------------------------------------------
 
 ZumoRobot::ZumoRobot(){
-
-  current_state = kZumoState_NoDataReceived;
-  current_left_speed = 0;
-  current_right_speed = 0;
   
 }
 
@@ -28,6 +24,15 @@ void ZumoRobot::InitializeZumo(){
   Serial.begin(9600);
   // Initialize XBee connection at baud rate 9600
   Serial1.begin(9600);
+
+  current_state = kZumoState_NoDataReceived;
+  current_left_speed = 0;
+  current_right_speed = 0;
+  current_rotation = 0;
+
+  InitLineSensors();
+  InitProximitySensors();
+  InitGyroscope();
   
 }
  
@@ -35,7 +40,125 @@ void ZumoRobot::InitializeZumo(){
  
 void ZumoRobot::UpdateZumo(){
   
-  incoming_byte = Serial1.read();
+  ReadSerialData();
+
+  // Check all nneccesary things and change mode or perform actions if needed
+  switch(current_state){
+  case kZumoState_NoDataReceived:{
+    break;
+  }
+  case kZumoState_Stop:{
+    break;
+  }
+  case kZumoState_Forward:{
+    DetectLines();
+    break;
+  }
+  case kZumoState_Backward:{
+    DetectLines();
+    break;
+  }
+  case kZumoState_TurnRight:{
+    // Should rotate until reaches desired rotation
+    break;
+  }
+  case kZumoState_TurnLeft:{
+    // Should rotate until reaches desired rotation
+    break;
+  }
+  case kZumoState_ScanRoom:{
+    // Do scanning room things
+    break;
+  }
+  case kZumoState_Returning:{
+    // Do returning things
+    break;
+  }
+  default:{
+    break;
+  }
+  };
+  
+}
+
+// ----------------------------------------------------------------------------
+
+void ZumoRobot::InitLineSensors(){
+  
+  line_sensors.initThreeSensors();
+  line_sensors_values[0] = 0;
+  line_sensors_values[1] = 0;
+  line_sensors_values[2] = 0;
+
+}
+
+// ----------------------------------------------------------------------------
+  
+void ZumoRobot::InitProximitySensors(){
+  
+}
+
+// ----------------------------------------------------------------------------
+  
+void ZumoRobot::InitGyroscope(){
+  
+}
+ 
+// ----------------------------------------------------------------------------
+ 
+void ZumoRobot::SetMotorSpeed(int new_speed, ZumoMotors zumo_motors){
+  
+  switch(zumo_motors){
+  case kZumoMotors_Both:{
+    motors.setSpeeds(new_speed, new_speed);
+    current_right_speed = new_speed;
+    current_left_speed = new_speed;
+    break;
+  }
+  case kZumoMotors_Right:{
+    motors.setRightSpeed(new_speed);
+    current_right_speed = new_speed;
+    break;
+  }
+  case kZumoMotors_Left:{
+    motors.setLeftSpeed(new_speed);
+    current_left_speed = new_speed;
+    break;
+  }
+  default:{
+    break;  
+  }  
+  };
+  
+}
+ 
+// ----------------------------------------------------------------------------
+ 
+void RotateToAngle(int angle){
+  
+  // Use gyro or wheel encoders
+  
+}
+ 
+// ----------------------------------------------------------------------------
+ 
+bool ZumoRobot::DetectLines(){
+  
+  return false;
+  
+}
+ 
+// ----------------------------------------------------------------------------
+
+void ZumoRobot::PlayFollowMeGuide(){
+  
+}
+ 
+// ----------------------------------------------------------------------------
+
+void ZumoRobot::ReadSerialData(){
+  
+  int incoming_byte = Serial1.read();
 
   switch(incoming_byte){
   case 0:{
@@ -82,62 +205,6 @@ void ZumoRobot::UpdateZumo(){
     break;
   }
   };
-  
-}
- 
-// ----------------------------------------------------------------------------
- 
-void ZumoRobot::UpdateMotorSpeed(int speed_to_reach, ZumoMotors zumo_motors){
-  
-}
- 
-// ----------------------------------------------------------------------------
- 
-void ZumoRobot::SetMotorSpeed(int new_speed, ZumoMotors zumo_motors){
-  
-  switch(zumo_motors){
-  case kZumoMotors_Both:{
-    motors.setRightSpeed(new_speed);
-    motors.setLeftSpeed(new_speed);
-    break;
-  }
-  case kZumoMotors_Right:{
-    motors.setRightSpeed(new_speed);
-    break;
-  }
-  case kZumoMotors_Left:{
-    motors.setLeftSpeed(new_speed);
-    break;
-  }
-  default:{
-    break;  
-  }  
-  };
-  
-}
- 
-// ----------------------------------------------------------------------------
- 
-void RotateToAngle(int angle){
-  
-}
- 
-// ----------------------------------------------------------------------------
-
-void ZumoRobot::RotateDegrees(int degrees){
-  
-}
- 
-// ----------------------------------------------------------------------------
- 
-bool ZumoRobot::DetectLines(){
-  
-  return false;
-}
- 
-// ----------------------------------------------------------------------------
-
-void ZumoRobot::PlayFollowMeGuide(){
   
 }
  

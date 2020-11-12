@@ -38,30 +38,39 @@ public:
   
   // Do all the neccessary checks and updates the zumo state
   void UpdateZumo();
-  
-  // Interpolates current speed to the given speed by parameter
-  void UpdateMotorSpeed(int speed_to_reach, ZumoMotors zumo_motors);
+
+private:
+  // --------------- Initialize functions ----------------------
+  // Initializes and calibrates line sensors
+  void InitLineSensors();
+  // Initializes and calibrates proximity sensors
+  void InitProximitySensors();
+  // Initializes and calibrates the gyroscope
+  void InitGyroscope();
+
+  // ----------------- Utility functions -----------------------
   // Set directly a new speed for the motors
   void SetMotorSpeed(int new_speed, ZumoMotors zumo_motors);
   // Rotates the zumo robot to a given angle
   void RotateToAngle(int angle);
-  // Rotates the zumo robot from its current rotation plus the given degrees
-  void RotateDegrees(int degrees);
-  
   // Detect if the sensors find any line and return true if it do
   bool DetectLines();
-  
   // Plays the buzzer and turn on the led for its rescue operation
   void PlayFollowMeGuide();
+  // Reads the incoming data from the serial
+  void ReadSerialData();
 
-private:
+  // --------------------- Variables ---------------------------
   ZumoState current_state;
   int current_left_speed;
   int current_right_speed;
-  int incoming_byte;
+  int current_rotation;
+  int desired_rotation;
+  uint16_t line_sensors_values[3];
 
   Zumo32U4Buzzer buzzer;
   Zumo32U4Motors motors;
+  Zumo32U4IMU imu; // Inertial Measurement Unit (Gyro)
   Zumo32U4LineSensors line_sensors;
   Zumo32U4ProximitySensors prox_sensors;
   

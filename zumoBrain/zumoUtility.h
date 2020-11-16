@@ -7,8 +7,6 @@
 
 #include <Zumo32U4.h>
 
-// Convert it to a class and add variables for the motors and all the robot things, plus needed variables
-
 // Enumerator to indicate zumo state, also to receive data from Xbee in integer format
 enum ZumoState {
   kZumoState_NoDataReceived = 0,
@@ -54,7 +52,7 @@ private:
   // Rotates the zumo robot to a given angle
   void RotateToAngle(int angle);
   // Detect if the sensors find any line and return true if it do
-  bool DetectLines();
+  void DetectLines();
   // Plays the buzzer and turn on the led for its rescue operation
   void PlayFollowMeGuide();
   // Reads the incoming data from the serial
@@ -66,7 +64,8 @@ private:
   int current_right_speed;
   int current_rotation;
   int desired_rotation;
-  uint16_t line_sensors_values[3];
+  uint16_t line_sensors_values[5];
+  bool enabled_read;
 
   Zumo32U4Buzzer buzzer;
   Zumo32U4Motors motors;

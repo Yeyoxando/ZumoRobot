@@ -31,6 +31,14 @@ public void button4_click1(GButton source, GEvent event) { //_CODE_:button4:7612
   println("button4 - GButton >> GEvent." + event + " @ " + millis());
 } //_CODE_:button4:761249:
 
+public void textarea1_change1(GTextArea source, GEvent event) { //_CODE_:textarea1:657745:
+  println("textarea1 - GTextArea >> GEvent." + event + " @ " + millis());
+} //_CODE_:textarea1:657745:
+
+public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:textfield1:357450:
+  println("textfield1 - GTextField >> GEvent." + event + " @ " + millis());
+} //_CODE_:textfield1:357450:
+
 
 
 // Create all the GUI controls. 
@@ -40,7 +48,7 @@ public void createGUI(){
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
   surface.setTitle("Sketch Window");
-  button1 = new GButton(this, 200, 150, 80, 30);
+  button1 = new GButton(this, 200, 140, 80, 30);
   button1.setText("Forward");
   button1.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   button1.addEventHandler(this, "button1_click1");
@@ -56,6 +64,13 @@ public void createGUI(){
   button4.setText("Turn Right");
   button4.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   button4.addEventHandler(this, "button4_click1");
+  textarea1 = new GTextArea(this, 150, 20, 200, 80, G4P.SCROLLBARS_NONE);
+  textarea1.setOpaque(true);
+  textarea1.addEventHandler(this, "textarea1_change1");
+  textfield1 = new GTextField(this, 150, 2, 120, 15, G4P.SCROLLBARS_NONE);
+  textfield1.setText("Zumo messages");
+  textfield1.setOpaque(true);
+  textfield1.addEventHandler(this, "textfield1_change1");
 }
 
 // Variable declarations 
@@ -63,4 +78,7 @@ public void createGUI(){
 GButton button1; 
 GButton button2; 
 GButton button3; 
-GButton button4; */
+GButton button4; 
+GTextArea textarea1; 
+GTextField textfield1; 
+*/

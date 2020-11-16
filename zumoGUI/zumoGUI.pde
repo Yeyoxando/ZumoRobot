@@ -9,6 +9,7 @@ import processing.serial.*;
 
 // XBee
 Serial serialPort;
+int value = 0;
 
 // GUI controls
 GButton button0; 
@@ -16,6 +17,8 @@ GButton button1;
 GButton button2; 
 GButton button3; 
 GButton button4;
+GTextArea textarea1; 
+GTextField textfield1; 
 
 // ----------------------------------------------------------------------------
 
@@ -40,9 +43,13 @@ public void setup(){
 
 public void draw(){
   background(230);
-  
 }
 
+void serialEvent(Serial serialPort){
+  //value = serialPort.read();
+  //textarea1.setText(value + "");
+  //println("Has entered here.");
+}
 // ----------------------------------------------------------------------------
 
 // ------------------------------- GUI FUNCTIONS ------------------------------
@@ -100,6 +107,18 @@ public void button4_click1(GButton source, GEvent event) { // Turn left button
 
 // ----------------------------------------------------------------------------
 
+public void textarea1_change1(GTextArea source, GEvent event) { // Display zumo info
+  println("textarea1 - GTextArea >> GEvent." + event + " @ " + millis());
+} // Display zumo info
+
+// ----------------------------------------------------------------------------
+
+public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:textfield1:357450:
+  //println("textfield1 - GTextField >> GEvent." + event + " @ " + millis());
+} //_CODE_:textfield1:357450:
+
+// ----------------------------------------------------------------------------
+
 // Create all the GUI controls. 
 public void createGUI(){
   G4P.messagesEnabled(false);
@@ -126,6 +145,13 @@ public void createGUI(){
   button4.setText("Turn Left");
   button4.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   button4.addEventHandler(this, "button3_click1");
+  textarea1 = new GTextArea(this, 150, 20, 200, 80, G4P.SCROLLBARS_NONE);
+  textarea1.setOpaque(true);
+  textarea1.addEventHandler(this, "textarea1_change1");
+  textfield1 = new GTextField(this, 150, 2, 120, 15, G4P.SCROLLBARS_NONE);
+  textfield1.setText("Zumo messages");
+  textfield1.setOpaque(true);
+  textfield1.addEventHandler(this, "textfield1_change1");
 }
 
 // ----------------------------------------------------------------------------

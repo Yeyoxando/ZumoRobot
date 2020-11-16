@@ -29,6 +29,7 @@ void ZumoRobot::InitializeZumo(){
   current_left_speed = 0;
   current_right_speed = 0;
   current_rotation = 0;
+  enabled_read = true;
 
   InitLineSensors();
   InitProximitySensors();
@@ -39,8 +40,10 @@ void ZumoRobot::InitializeZumo(){
 // ----------------------------------------------------------------------------
  
 void ZumoRobot::UpdateZumo(){
-  
-  ReadSerialData();
+
+  if(enabled_read){
+    ReadSerialData();
+  }
 
   // Check all nneccesary things and change mode or perform actions if needed
   switch(current_state){
@@ -55,7 +58,7 @@ void ZumoRobot::UpdateZumo(){
     break;
   }
   case kZumoState_Backward:{
-    DetectLines();
+    //DetectLines();
     break;
   }
   case kZumoState_TurnRight:{
@@ -85,10 +88,17 @@ void ZumoRobot::UpdateZumo(){
 
 void ZumoRobot::InitLineSensors(){
   
-  line_sensors.initThreeSensors();
-  line_sensors_values[0] = 0;
-  line_sensors_values[1] = 0;
-  line_sensors_values[2] = 0;
+  line_sensors.initFiveSensors();
+  *line_sensors_values = 0;
+  
+  ledYellow(1);
+
+  for (uint16_t i = 0; i < 400; i++)
+  {
+    line_sensors.calibrate();
+  }
+
+  ledYellow(0);
 
 }
 
@@ -142,9 +152,39 @@ void RotateToAngle(int angle){
  
 // ----------------------------------------------------------------------------
  
-bool ZumoRobot::DetectLines(){
+void ZumoRobot::DetectLines(){
   
-  return false;
+  line_sensors.readCalibrated(line_sensors_values);
+  //Serial1.write(line_sensors_values[4]);
+  
+  if(line_sensors_values[4] > 150 && line_sensors_values[0] > 150){
+    SetMotorSpeed(0, kZumoMotors_Both);
+    ledYellow(0);
+    enabled_read = true;
+  }
+  else if(line_sensors_values[0] > 150){
+    //Serial1.write(line_sensors_values[0]);
+    // Left sensor detected border
+    ledYellow(1);
+    SetMotorSpeed(0, kZumoMotors_Both);
+    delay(50);
+    SetMotorSpeed(100, kZumoMotors_Left);
+    delay(100);
+    SetMotorSpeed(200, kZumoMotors_Both);
+  }
+  else if(line_sensors_values[4] > 150){
+    ledYellow(1);
+    // Right sensor detected border
+    SetMotorSpeed(0, kZumoMotors_Both);
+    delay(50);
+    SetMotorSpeed(100, kZumoMotors_Right);
+    delay(100);
+    SetMotorSpeed(200, kZumoMotors_Both);
+  }
+  else{
+    // Do nothing  
+    ledYellow(0);
+  }
   
 }
  
@@ -172,6 +212,7 @@ void ZumoRobot::ReadSerialData(){
   }
   case 2:{
     current_state = kZumoState_Forward;
+    enabled_read = false;
     SetMotorSpeed(200, kZumoMotors_Both);
     break;
   }

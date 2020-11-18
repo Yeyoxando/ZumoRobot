@@ -49,6 +49,12 @@ enum ZumoData {
   kZumoData_AutonomousTurnRight = 9, // Task 4
 };
 
+// Indicates all the data that could be send from the Zumo to the GUI
+enum GUIData{
+  kGUIData_SwitchManualMode = 100,
+  kGUIData_ReachedFrontWall = 101,
+};
+
 // Enumerator to indicate zumo motors
 enum ZumoMotors {
   kZumoMotors_Both = 0,

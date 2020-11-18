@@ -13,7 +13,6 @@ import processing.serial.*;
 
 // XBee
 public static Serial serialPort;
-int value = 0;
 
 //Zumo
 public static boolean manual_mode = true;
@@ -40,15 +39,32 @@ public void setup(){
 // ----------------------------------------------------------------------------
 
 public void draw(){
-  background(230);
+  background(255);
 }
 
 // ----------------------------------------------------------------------------
 
 void serialEvent(Serial serialPort){
-  //value = serialPort.read();
-  //textarea1.setText(value + "");
-  //println("Has entered here.");
+  int value = serialPort.read();
+  println("Received data");
+  
+  switch(value){
+    case 100:{ // kGUIData_SwitchManualMode
+      break;
+    }
+    case 101:{ // kGUIData_ReachedFrontWall
+      modeToggleClick(mode_toggle, GEvent.PRESSED);
+      current_task_label.setText("Currently performing: Task 3");
+      zumo_msg_fill_label.setText("Detected wall in front. Turn left or right and hit completed button");
+      gui_help_fill_label.setText("");
+      completed_button.setVisible(true);
+      break;
+    }
+    default:{
+      break;
+    }
+  };
+  
 }
 
 // ----------------------------------------------------------------------------
@@ -57,6 +73,24 @@ void serialEvent(Serial serialPort){
 
 // Use this method to add additional statements to customise the GUI controls
 public void customGUI(){
+  
+}
+
+// ----------------------------------------------------------------------------
+
+public static void EnableButton(GButton button){
+  
+  button.setEnabled(true);
+  button.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+  
+}
+
+// ----------------------------------------------------------------------------
+
+public static void DisableButton(GButton button){
+  
+  button.setEnabled(false);
+  button.setLocalColorScheme(GCScheme.RED_SCHEME);
   
 }
 
@@ -74,4 +108,11 @@ enum ZumoData {
   kZumoData_AutonomousForward = 7,   // Task 2
   kZumoData_AutonomousTurnLeft = 8,  // Task 4
   kZumoData_AutonomousTurnRight = 9, // Task 4
-};*/
+};
+
+enum GUIData{
+  kGUIData_SwitchManualMode = 100,
+  kGUIData_ReachedFrontWall = 101,
+};
+
+*/

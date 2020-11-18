@@ -29,7 +29,7 @@ void ZumoRobot::InitializeZumo(){
   current_left_speed = 0;
   current_right_speed = 0;
   current_rotation = 0;
-  enabled_read = true;
+  manual_mode = true;
 
   InitLineSensors();
   InitProximitySensors();
@@ -41,9 +41,7 @@ void ZumoRobot::InitializeZumo(){
  
 void ZumoRobot::UpdateZumo(){
 
-  if(enabled_read){
-    ReadSerialData();
-  }
+  ReadSerialData();
 
   // Check all nneccesary things and change mode or perform actions if needed
   switch(current_state){
@@ -54,18 +52,20 @@ void ZumoRobot::UpdateZumo(){
     break;
   }
   case kZumoState_Forward:{
-    DetectLines();
+    if(!manual_mode){
+      DetectLines();
+    }
     break;
   }
   case kZumoState_Backward:{
     //DetectLines();
     break;
   }
-  case kZumoState_TurnRight:{
+  case kZumoState_TurnLeft:{
     // Should rotate until reaches desired rotation
     break;
   }
-  case kZumoState_TurnLeft:{
+  case kZumoState_TurnRight:{
     // Should rotate until reaches desired rotation
     break;
   }
@@ -157,10 +157,9 @@ void ZumoRobot::DetectLines(){
   line_sensors.readCalibrated(line_sensors_values);
   //Serial1.write(line_sensors_values[4]);
   
-  if(line_sensors_values[4] > 150 && line_sensors_values[0] > 150){
+  if(line_sensors_values[2] > 150){
     SetMotorSpeed(0, kZumoMotors_Both);
     ledYellow(0);
-    enabled_read = true;
   }
   else if(line_sensors_values[0] > 150){
     //Serial1.write(line_sensors_values[0]);
@@ -212,7 +211,6 @@ void ZumoRobot::ReadSerialData(){
   }
   case 2:{
     current_state = kZumoState_Forward;
-    enabled_read = false;
     SetMotorSpeed(200, kZumoMotors_Both);
     break;
   }
@@ -222,13 +220,13 @@ void ZumoRobot::ReadSerialData(){
     break;
   }
   case 4:{
-    current_state = kZumoState_TurnRight;
+    current_state = kZumoState_TurnLeft;
     SetMotorSpeed(100, kZumoMotors_Right);
     SetMotorSpeed(-100, kZumoMotors_Left);
     break;
   }
   case 5:{
-    current_state = kZumoState_TurnLeft;
+    current_state = kZumoState_TurnRight;
     SetMotorSpeed(-100, kZumoMotors_Right);
     SetMotorSpeed(100, kZumoMotors_Left);
     break;

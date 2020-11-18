@@ -13,31 +13,114 @@
  * Do not rename this tab!
  * =========================================================
  */
-/*
+
 public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:221725:
-  println("button1 - GButton >> GEvent." + event + " @ " + millis());
+  
+  if(event == GEvent.PRESSED){
+    println("Clicked forward button");
+    if(zumoGUI.manual_mode){
+      // Send move forward to zumo until button is released
+      zumoGUI.serialPort.write(2);
+    }
+    else{
+      // Activate task 2 if zumo is autonomous
+    }
+  }
+  if(event == GEvent.RELEASED || event == GEvent.CLICKED){
+    println("Released forward button");
+    if(zumoGUI.manual_mode){
+      // Tell zumo to stop
+      zumoGUI.serialPort.write(1);
+    }
+  }
   
 } //_CODE_:button1:221725:
 
 public void button2_click1(GButton source, GEvent event) { //_CODE_:button2:819618:
-  println("button2 - GButton >> GEvent." + event + " @ " + millis());
+  
+  if(event == GEvent.PRESSED){
+    println("Clicked backward button");
+    if(zumoGUI.manual_mode){
+      // Send move backward to zumo until button is released
+      zumoGUI.serialPort.write(3);
+    }
+    else{
+      // Do nothing for now
+      // Maybe disable this buttons in autonomous
+    }
+  }
+  if(event == GEvent.RELEASED || event == GEvent.CLICKED){
+    println("Released backward button");
+    if(zumoGUI.manual_mode){
+      // Tell zumo to stop
+      zumoGUI.serialPort.write(1);
+    }
+  }
+  
 } //_CODE_:button2:819618:
 
 public void button3_click1(GButton source, GEvent event) { //_CODE_:button3:590894:
-  println("button3 - GButton >> GEvent." + event + " @ " + millis());
+  
+  if(event == GEvent.PRESSED){
+    println("Clicked left button");
+    if(zumoGUI.manual_mode){
+      // Send turn left to zumo until button is released
+      zumoGUI.serialPort.write(4);
+    }
+    else{
+      // Do nothing for now
+      // Maybe disable this buttons in autonomous
+    }
+  }
+  if(event == GEvent.RELEASED || event == GEvent.CLICKED){
+    println("Released left button");
+    if(zumoGUI.manual_mode){
+      // Tell zumo to stop
+      zumoGUI.serialPort.write(1);
+    }
+  }
+  
 } //_CODE_:button3:590894:
 
 public void button4_click1(GButton source, GEvent event) { //_CODE_:button4:761249:
-  println("button4 - GButton >> GEvent." + event + " @ " + millis());
+    
+  if(event == GEvent.PRESSED){
+    println("Clicked right button");
+    if(zumoGUI.manual_mode){
+      // Send turn right to zumo until button is released
+      zumoGUI.serialPort.write(5);
+    }
+    else{
+      // Do nothing for now
+      // Maybe disable this buttons in autonomous
+    }
+  }
+  if(event == GEvent.RELEASED || event == GEvent.CLICKED){
+    println("Released right button");
+    if(zumoGUI.manual_mode){
+      // Tell zumo to stop
+      zumoGUI.serialPort.write(1);
+    }
+  }
+  
 } //_CODE_:button4:761249:
 
 public void textarea1_change1(GTextArea source, GEvent event) { //_CODE_:textarea1:657745:
   println("textarea1 - GTextArea >> GEvent." + event + " @ " + millis());
 } //_CODE_:textarea1:657745:
 
-public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:textfield1:357450:
-  println("textfield1 - GTextField >> GEvent." + event + " @ " + millis());
-} //_CODE_:textfield1:357450:
+public void imgTogButton1_click1(GImageToggleButton source, GEvent event) { //_CODE_:imgTogButton1:529271:
+  if(imgTogButton1.getState() == 0){
+    label1.setText("Manual mode");
+    println("Zumo changed to manual mode");
+    zumoGUI.manual_mode = true;
+  }
+  else{
+    label1.setText("Autonomous mode");
+    println("Zumo changed to autonomous mode");
+    zumoGUI.manual_mode = false;
+  }
+} //_CODE_:imgTogButton1:529271:
 
 
 
@@ -48,29 +131,43 @@ public void createGUI(){
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
   surface.setTitle("Sketch Window");
-  button1 = new GButton(this, 200, 140, 80, 30);
+  button1 = new GButton(this, 300, 160, 80, 30);
   button1.setText("Forward");
   button1.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+  button1.fireAllEvents(true);
   button1.addEventHandler(this, "button1_click1");
-  button2 = new GButton(this, 200, 250, 80, 30);
+  button2 = new GButton(this, 300, 240, 80, 30);
   button2.setText("Backward");
   button2.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+  button2.fireAllEvents(true);
   button2.addEventHandler(this, "button2_click1");
-  button3 = new GButton(this, 100, 200, 80, 30);
+  button3 = new GButton(this, 215, 200, 80, 30);
   button3.setText("Turn Left");
   button3.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+  button3.fireAllEvents(true);
   button3.addEventHandler(this, "button3_click1");
-  button4 = new GButton(this, 300, 200, 80, 30);
+  button4 = new GButton(this, 385, 200, 80, 30);
   button4.setText("Turn Right");
   button4.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+  button4.fireAllEvents(true);
   button4.addEventHandler(this, "button4_click1");
-  textarea1 = new GTextArea(this, 150, 20, 200, 80, G4P.SCROLLBARS_NONE);
+  textarea1 = new GTextArea(this, 6, 24, 200, 270, G4P.SCROLLBARS_NONE);
   textarea1.setOpaque(true);
   textarea1.addEventHandler(this, "textarea1_change1");
-  textfield1 = new GTextField(this, 150, 2, 120, 15, G4P.SCROLLBARS_NONE);
-  textfield1.setText("Zumo messages");
-  textfield1.setOpaque(true);
-  textfield1.addEventHandler(this, "textfield1_change1");
+  imgTogButton1 = new GImageToggleButton(this, 321, 11);
+  imgTogButton1.addEventHandler(this, "imgTogButton1_click1");
+  label1 = new GLabel(this, 280, 64, 120, 20);
+  label1.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label1.setText("Manual mode");
+  label1.setOpaque(false);
+  label2 = new GLabel(this, 6, 2, 100, 20);
+  label2.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label2.setText("Zumo messages");
+  label2.setOpaque(false);
+  label3 = new GLabel(this, 240, 111, 200, 20);
+  label3.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label3.setText("Current performing: Task 1");
+  label3.setOpaque(true);
 }
 
 // Variable declarations 
@@ -80,5 +177,7 @@ GButton button2;
 GButton button3; 
 GButton button4; 
 GTextArea textarea1; 
-GTextField textfield1; 
-*/
+GImageToggleButton imgTogButton1; 
+GLabel label1; 
+GLabel label2; 
+GLabel label3; 

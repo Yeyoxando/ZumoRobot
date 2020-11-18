@@ -161,10 +161,12 @@ void ZumoRobot::DetectLines(){
   if(line_sensors_values[2] > 150){ // Center
     // Stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
-    ledGreen(1);
-    delay(100)
-    ledGreen(0);
+    ledYellow(0);
     // Send message to GUI
+    ledGreen(1);
+    Serial1.write((int)kGUIData_ReachedFrontWall);
+    delay(100);
+    ledGreen(0);
   }
   else if(line_sensors_values[0] > 150){ // Left
     // Left sensor detected border
@@ -211,7 +213,6 @@ void ZumoRobot::ReadSerialData(){
 
   switch(incoming_data){
   case kZumoData_NoDataReceived:{
-    
     break;
   }
   case kZumoData_Stop:{

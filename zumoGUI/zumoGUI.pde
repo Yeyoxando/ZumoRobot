@@ -34,12 +34,17 @@ public void setup(){
   String portName = "COM4";
   serialPort = new Serial(this, portName, 9600);
   
+  //GUI
+  gui_help_fill_label.setText(gui_help_strings[1]);
+  
 }
 
 // ----------------------------------------------------------------------------
 
 public void draw(){
+  
   background(255);
+
 }
 
 // ----------------------------------------------------------------------------
@@ -53,10 +58,19 @@ void serialEvent(Serial serialPort){
       break;
     }
     case 101:{ // kGUIData_ReachedFrontWall
-      modeToggleClick(mode_toggle, GEvent.PRESSED);
+      serialPort.write(6);
+      mode_toggle.setState(0);
+      mode_label.setText("Manual mode");
+      println("Zumo changed to manual mode");
+      manual_mode = true;
+      // Enable usable buttons
+      EnableButton(backward_button);
+      EnableButton(left_button);
+      EnableButton(right_button);
+      
       current_task_label.setText("Currently performing: Task 3");
-      zumo_msg_fill_label.setText("Detected wall in front. Turn left or right and hit completed button");
-      gui_help_fill_label.setText("");
+      zumo_msg_fill_label.setText(zumo_data_strings[0]);
+      gui_help_fill_label.setText(gui_help_strings[2]);
       completed_button.setVisible(true);
       break;
     }
@@ -73,24 +87,6 @@ void serialEvent(Serial serialPort){
 
 // Use this method to add additional statements to customise the GUI controls
 public void customGUI(){
-  
-}
-
-// ----------------------------------------------------------------------------
-
-public static void EnableButton(GButton button){
-  
-  button.setEnabled(true);
-  button.setLocalColorScheme(GCScheme.GREEN_SCHEME);
-  
-}
-
-// ----------------------------------------------------------------------------
-
-public static void DisableButton(GButton button){
-  
-  button.setEnabled(false);
-  button.setLocalColorScheme(GCScheme.RED_SCHEME);
   
 }
 

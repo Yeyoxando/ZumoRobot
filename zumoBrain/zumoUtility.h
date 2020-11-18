@@ -8,20 +8,13 @@
 #include <Zumo32U4.h>
 
 /* ToDo
-  - The robot shoulb be capable of perform all the tasks independently
-  - Indicator of when is in manual control or when is on autonomous (Also possibility to change between)
-  - Separate ZumoState from ZumoData to allow communication from both sides, so when zumo is on autonomous mode it sends data
+  - Check for the change between autonomous and manual, it may have some errors
   - Clean and improve line detector code
-  - Clean and improve GUI
-  - Change front wall detection to the central sensor
-  - Add predefinited messages on GUI that corresponds to a number received from the Zumo
   - Maybe use sensor calibrated variables for max and min (calibratedMinimumOff, calibratedMaximumOff)
   - Try setting this values manually
   - Maybe do automatic calibration
-  - Maybe change the GUI depending on the task that is performing, see if that is possible
-  - Add Another text field in the GUI with info to perform the different tasks. i.e. When intialized show 
-  "Current possible task: "Task 1, to perform task 2 switch the zumo robot to autonmous and press the forward button"
-  - Add button for complete when finished turn of task 3
+  - Keep improving GUI messages system
+  - Clean and refactorize the GUI code, make functions where possible
 */
 
 // Enumerator to indicate current zumo state

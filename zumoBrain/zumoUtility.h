@@ -9,7 +9,6 @@
 
 /* ToDo
   - The robot shoulb be capable of perform all the tasks independently
-  - Maybe it will be better to do the movement while the buttons are pressed, so when they are released it stops
   - Indicator of when is in manual control or when is on autonomous (Also possibility to change between)
   - Separate ZumoState from ZumoData to allow communication from both sides, so when zumo is on autonomous mode it sends data
   - Clean and improve line detector code
@@ -20,23 +19,34 @@
   - Try setting this values manually
   - Maybe do automatic calibration
   - Maybe change the GUI depending on the task that is performing, see if that is possible
+  - Add Another text field in the GUI with info to perform the different tasks. i.e. When intialized show 
+  "Current possible task: "Task 1, to perform task 2 switch the zumo robot to autonmous and press the forward button"
+  - Add button for complete when finished turn of task 3
 */
 
-// Enumerator to indicate zumo state, also to receive data from Xbee in integer format
+// Enumerator to indicate current zumo state
 enum ZumoState {
-  kZumoState_NoDataReceived = 0,
-  kZumoState_Stop = 1,
-  kZumoState_Forward = 2,
-  kZumoState_Backward = 3,
-  kZumoState_TurnLeft = 4,
-  kZumoState_TurnRight = 5,
-  kZumoState_ScanRoom = 6,
-  kZumoState_Returning = 7
+  kZumoState_Stopped = 0,
+  kZumoState_Forwarding = 1,
+  kZumoState_Backwarding = 2,
+  kZumoState_TurningLeft = 3,
+  kZumoState_TurningRight = 4,
+  kZumoState_ScanningRoom = 5,
+  kZumoState_Returning = 6
 };
 
 // Indicates all the data that could be received from the GUI to convert it to robot actions
 enum ZumoData {
-  kZumoData_NoDataReceived = 0
+  kZumoData_NoDataReceived = 0,
+  kZumoData_Stop = 1,                // Task 1
+  kZumoData_ManualForward = 2,       // Task 1
+  kZumoData_ManualBackward = 3,      // Task 1
+  kZumoData_ManualTurnLeft = 4,      // Task 1
+  kZumoData_ManualTurnRight = 5,     // Task 1
+  kZumoData_SwitchManualMode = 6,
+  kZumoData_AutonomousForward = 7,   // Task 2
+  kZumoData_AutonomousTurnLeft = 8,  // Task 4
+  kZumoData_AutonomousTurnRight = 9, // Task 4
 };
 
 // Enumerator to indicate zumo motors

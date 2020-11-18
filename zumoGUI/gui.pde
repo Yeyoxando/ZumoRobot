@@ -24,6 +24,7 @@ public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:2217
     }
     else{
       // Activate task 2 if zumo is autonomous
+      zumoGUI.serialPort.write(7);
     }
   }
   if(event == GEvent.RELEASED || event == GEvent.CLICKED){
@@ -110,17 +111,34 @@ public void textarea1_change1(GTextArea source, GEvent event) { //_CODE_:textare
 } //_CODE_:textarea1:657745:
 
 public void imgTogButton1_click1(GImageToggleButton source, GEvent event) { //_CODE_:imgTogButton1:529271:
+  
+  // Indicate the zumo to change its behavior
+  //zumoGUI.serialPort.write(6);
+  
   if(imgTogButton1.getState() == 0){
     label1.setText("Manual mode");
     println("Zumo changed to manual mode");
     zumoGUI.manual_mode = true;
+    // Enable usable buttons
+    button2.setEnabled(true);
+    button3.setEnabled(true);
+    button4.setEnabled(true);
   }
   else{
     label1.setText("Autonomous mode");
     println("Zumo changed to autonomous mode");
     zumoGUI.manual_mode = false;
+    // Disable not usable buttons
+    button2.setEnabled(false);
+    button3.setEnabled(false);
+    button4.setEnabled(false);
   }
+  
 } //_CODE_:imgTogButton1:529271:
+
+public void textarea2_change1(GTextArea source, GEvent event) { //_CODE_:textarea2:444045:
+  println("textarea2 - GTextArea >> GEvent." + event + " @ " + millis());
+} //_CODE_:textarea2:444045:
 
 
 
@@ -130,33 +148,33 @@ public void createGUI(){
   G4P.messagesEnabled(false);
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
-  surface.setTitle("Sketch Window");
-  button1 = new GButton(this, 300, 160, 80, 30);
+  surface.setTitle("Zumo Rescue GUI");
+  button1 = new GButton(this, 300, 212, 80, 30);
   button1.setText("Forward");
   button1.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   button1.fireAllEvents(true);
   button1.addEventHandler(this, "button1_click1");
-  button2 = new GButton(this, 300, 240, 80, 30);
+  button2 = new GButton(this, 300, 280, 80, 30);
   button2.setText("Backward");
   button2.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   button2.fireAllEvents(true);
   button2.addEventHandler(this, "button2_click1");
-  button3 = new GButton(this, 215, 200, 80, 30);
+  button3 = new GButton(this, 215, 246, 80, 30);
   button3.setText("Turn Left");
   button3.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   button3.fireAllEvents(true);
   button3.addEventHandler(this, "button3_click1");
-  button4 = new GButton(this, 385, 200, 80, 30);
+  button4 = new GButton(this, 385, 246, 80, 30);
   button4.setText("Turn Right");
   button4.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   button4.fireAllEvents(true);
   button4.addEventHandler(this, "button4_click1");
-  textarea1 = new GTextArea(this, 6, 24, 200, 270, G4P.SCROLLBARS_NONE);
+  textarea1 = new GTextArea(this, 6, 24, 200, 150, G4P.SCROLLBARS_NONE);
   textarea1.setOpaque(true);
   textarea1.addEventHandler(this, "textarea1_change1");
-  imgTogButton1 = new GImageToggleButton(this, 321, 11);
+  imgTogButton1 = new GImageToggleButton(this, 321, 25);
   imgTogButton1.addEventHandler(this, "imgTogButton1_click1");
-  label1 = new GLabel(this, 280, 64, 120, 20);
+  label1 = new GLabel(this, 280, 80, 120, 20);
   label1.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label1.setText("Manual mode");
   label1.setOpaque(false);
@@ -164,10 +182,17 @@ public void createGUI(){
   label2.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label2.setText("Zumo messages");
   label2.setOpaque(false);
-  label3 = new GLabel(this, 240, 111, 200, 20);
+  label3 = new GLabel(this, 240, 130, 200, 20);
   label3.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   label3.setText("Current performing: Task 1");
   label3.setOpaque(true);
+  label4 = new GLabel(this, 6, 188, 80, 20);
+  label4.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  label4.setText("GUI help");
+  label4.setOpaque(false);
+  textarea2 = new GTextArea(this, 6, 212, 200, 100, G4P.SCROLLBARS_NONE);
+  textarea2.setOpaque(true);
+  textarea2.addEventHandler(this, "textarea2_change1");
 }
 
 // Variable declarations 
@@ -181,3 +206,5 @@ GImageToggleButton imgTogButton1;
 GLabel label1; 
 GLabel label2; 
 GLabel label3; 
+GLabel label4; 
+GTextArea textarea2; 

@@ -61,3 +61,17 @@ public void customGUI(){
 }
 
 // ----------------------------------------------------------------------------
+
+/* Pasted here to know values easily
+enum ZumoData {
+  kZumoData_NoDataReceived = 0,
+  kZumoData_Stop = 1,                // Task 1
+  kZumoData_ManualForward = 2,       // Task 1
+  kZumoData_ManualBackward = 3,      // Task 1
+  kZumoData_ManualTurnLeft = 4,      // Task 1
+  kZumoData_ManualTurnRight = 5,     // Task 1
+  kZumoData_SwitchManualMode = 6,
+  kZumoData_AutonomousForward = 7,   // Task 2
+  kZumoData_AutonomousTurnLeft = 8,  // Task 4
+  kZumoData_AutonomousTurnRight = 9, // Task 4
+};*/

@@ -25,7 +25,7 @@ void ZumoRobot::InitializeZumo(){
   // Initialize XBee connection at baud rate 9600
   Serial1.begin(9600);
 
-  current_state = kZumoState_NoDataReceived;
+  current_state = kZumoState_Stopped;
   current_left_speed = 0;
   current_right_speed = 0;
   current_rotation = 0;
@@ -45,31 +45,28 @@ void ZumoRobot::UpdateZumo(){
 
   // Check all nneccesary things and change mode or perform actions if needed
   switch(current_state){
-  case kZumoState_NoDataReceived:{
+  case kZumoState_Stopped:{
     break;
   }
-  case kZumoState_Stop:{
-    break;
-  }
-  case kZumoState_Forward:{
+  case kZumoState_Forwarding:{
+    // Only check for lines if it is on autonomous mode
     if(!manual_mode){
       DetectLines();
     }
     break;
   }
-  case kZumoState_Backward:{
-    //DetectLines();
+  case kZumoState_Backwarding:{
     break;
   }
-  case kZumoState_TurnLeft:{
-    // Should rotate until reaches desired rotation
+  case kZumoState_TurningLeft:{
+    // If on autonomous should check rotation with gyro
     break;
   }
-  case kZumoState_TurnRight:{
-    // Should rotate until reaches desired rotation
+  case kZumoState_TurningRight:{
+    // If on autonomous should check rotation with gyro
     break;
   }
-  case kZumoState_ScanRoom:{
+  case kZumoState_ScanningRoom:{
     // Do scanning room things
     break;
   }
@@ -91,14 +88,18 @@ void ZumoRobot::InitLineSensors(){
   line_sensors.initFiveSensors();
   *line_sensors_values = 0;
   
-  ledYellow(1);
+  ledGreen(1);
 
   for (uint16_t i = 0; i < 400; i++)
   {
     line_sensors.calibrate();
   }
 
-  ledYellow(0);
+  // Retrieve max and min values from the calibration for debug purposes
+  Serial.write(line_sensors.calibratedMinimumOff);
+  Serial.write(line_sensors.calibratedMaximumOff);
+
+  ledGreen(0);
 
 }
 
@@ -157,27 +158,36 @@ void ZumoRobot::DetectLines(){
   line_sensors.readCalibrated(line_sensors_values);
   //Serial1.write(line_sensors_values[4]);
   
-  if(line_sensors_values[2] > 150){
+  if(line_sensors_values[2] > 150){ // Center
+    // Stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
-    ledYellow(0);
+    ledGreen(1);
+    delay(100)
+    ledGreen(0);
+    // Send message to GUI
   }
-  else if(line_sensors_values[0] > 150){
-    //Serial1.write(line_sensors_values[0]);
+  else if(line_sensors_values[0] > 150){ // Left
     // Left sensor detected border
     ledYellow(1);
+    // Stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
     delay(50);
+    // Turn a bit to the left
     SetMotorSpeed(100, kZumoMotors_Left);
     delay(100);
+    // Continue forward
     SetMotorSpeed(200, kZumoMotors_Both);
   }
-  else if(line_sensors_values[4] > 150){
-    ledYellow(1);
+  else if(line_sensors_values[4] > 150){ // Right
     // Right sensor detected border
+    ledYellow(1);
+    // Stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
     delay(50);
+    // Turn a bit to the right
     SetMotorSpeed(100, kZumoMotors_Right);
     delay(100);
+    // Continue forward
     SetMotorSpeed(200, kZumoMotors_Both);
   }
   else{
@@ -197,50 +207,87 @@ void ZumoRobot::PlayFollowMeGuide(){
 
 void ZumoRobot::ReadSerialData(){
   
-  int incoming_byte = Serial1.read();
+  ZumoData incoming_data = (ZumoData)Serial1.read();
 
-  switch(incoming_byte){
-  case 0:{
-    current_state = kZumoState_NoDataReceived;
+  switch(incoming_data){
+  case kZumoData_NoDataReceived:{
+    
     break;
   }
-  case 1:{
-    current_state = kZumoState_Stop;
+  case kZumoData_Stop:{
+    ledRed(0);
+    manual_mode = true;
+
+    current_state = kZumoState_Stopped;
     SetMotorSpeed(0, kZumoMotors_Both);
     break;
   }
-  case 2:{
-    current_state = kZumoState_Forward;
+  case kZumoData_ManualForward:{
+    ledRed(0);
+    manual_mode = true;
+    
+    current_state = kZumoState_Forwarding;
     SetMotorSpeed(200, kZumoMotors_Both);
     break;
   }
-  case 3:{
-    current_state = kZumoState_Backward;
+  case kZumoData_ManualBackward:{
+    ledRed(0);
+    manual_mode = true;
+    
+    current_state = kZumoState_Backwarding;
     SetMotorSpeed(-200, kZumoMotors_Both);
     break;
   }
-  case 4:{
-    current_state = kZumoState_TurnLeft;
+  case kZumoData_ManualTurnLeft:{
+    ledRed(0);
+    manual_mode = true;
+    
+    current_state = kZumoState_TurningLeft;
     SetMotorSpeed(100, kZumoMotors_Right);
     SetMotorSpeed(-100, kZumoMotors_Left);
     break;
   }
-  case 5:{
-    current_state = kZumoState_TurnRight;
+  case kZumoData_ManualTurnRight:{
+    ledRed(0);
+    manual_mode = true;
+    
+    current_state = kZumoState_TurningRight;
     SetMotorSpeed(-100, kZumoMotors_Right);
     SetMotorSpeed(100, kZumoMotors_Left);
     break;
   }
-  case 6:{
-    current_state = kZumoState_ScanRoom;
+  case kZumoData_SwitchManualMode:{
+    // Turn on or off the led red, if it is on is on autonomous
+    ledRed(manual_mode);
+    manual_mode = !manual_mode;
     break;
   }
-  case 7:{
-    current_state = kZumoState_Returning;
+  case kZumoData_AutonomousForward:{
+    // Perform Task 2
+    ledRed(1);
+    manual_mode = false;
+
+    current_state = kZumoState_Forwarding;
+    SetMotorSpeed(200, kZumoMotors_Both);
+    break;
+  }
+  case kZumoData_AutonomousTurnLeft: {
+    // Perform Task 4
+    ledRed(1);
+    manual_mode = false;
+    
+    current_state = kZumoState_TurningLeft;
+    break;
+  }
+  case kZumoData_AutonomousTurnRight: {
+    // Perform Task 4
+    ledRed(1);
+    manual_mode = false;
+    
+    current_state = kZumoState_TurningRight;
     break;
   }
   default:{
-    current_state = kZumoState_NoDataReceived;
     break;
   }
   };

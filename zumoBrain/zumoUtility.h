@@ -15,7 +15,10 @@
   - Maybe do automatic calibration
   - Keep improving GUI messages system
   - Clean and refactorize the GUI code, make functions where possible
+  - Adjust autonomous turn a bit more, not exactly 90 degrees, should be like 675 +-
 */
+
+#define ZUMO_SPEED 200
 
 // Enumerator to indicate current zumo state
 enum ZumoState {
@@ -46,6 +49,7 @@ enum ZumoData {
 enum GUIData{
   kGUIData_SwitchManualMode = 100,
   kGUIData_ReachedFrontWall = 101,
+  kGUIData_FinishedAutoRotation = 102,
 };
 
 // Enumerator to indicate zumo motors
@@ -78,8 +82,8 @@ private:
   // ----------------- Utility functions -----------------------
   // Set directly a new speed for the motors
   void SetMotorSpeed(int new_speed, ZumoMotors zumo_motors);
-  // Rotates the zumo robot to a given angle
-  void RotateToAngle(int angle);
+  // Rotates the zumo robot until encoders reach a certain value
+  void ReadRotationWithEncoders(bool left);
   // Detect if the sensors find any line and return true if it do
   void DetectLines();
   // Plays the buzzer and turn on the led for its rescue operation
@@ -91,13 +95,14 @@ private:
   ZumoState current_state;
   int current_left_speed;
   int current_right_speed;
-  int current_rotation;
-  int desired_rotation;
+  int desired_left_encoder;
+  int desired_right_encoder;
   uint16_t line_sensors_values[5];
   bool manual_mode;
 
   Zumo32U4Buzzer buzzer;
   Zumo32U4Motors motors;
+  Zumo32U4Encoders encoders;
   Zumo32U4IMU imu; // Inertial Measurement Unit (Gyro)
   Zumo32U4LineSensors line_sensors;
   Zumo32U4ProximitySensors prox_sensors;

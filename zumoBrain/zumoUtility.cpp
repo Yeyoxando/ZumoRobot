@@ -28,7 +28,8 @@ void ZumoRobot::InitializeZumo(){
   current_state = kZumoState_Stopped;
   current_left_speed = 0;
   current_right_speed = 0;
-  current_rotation = 0;
+  desired_left_encoder = 0;
+  desired_right_encoder = 0;
   manual_mode = true;
 
   InitLineSensors();
@@ -43,7 +44,7 @@ void ZumoRobot::UpdateZumo(){
 
   ReadSerialData();
 
-  // Check all nneccesary things and change mode or perform actions if needed
+  // Check all neccesary things and change mode or perform actions if needed
   switch(current_state){
   case kZumoState_Stopped:{
     break;
@@ -59,11 +60,17 @@ void ZumoRobot::UpdateZumo(){
     break;
   }
   case kZumoState_TurningLeft:{
-    // If on autonomous should check rotation with gyro
+    // If on autonomous should check rotation
+    if(!manual_mode){
+      ReadRotationWithEncoders(true);
+    }
     break;
   }
   case kZumoState_TurningRight:{
-    // If on autonomous should check rotation with gyro
+    // If on autonomous should check rotation
+    if(!manual_mode){
+      ReadRotationWithEncoders(false);
+    }
     break;
   }
   case kZumoState_ScanningRoom:{
@@ -113,6 +120,9 @@ void ZumoRobot::InitProximitySensors(){
   
 void ZumoRobot::InitGyroscope(){
   
+  imu.init();
+  imu.enableDefault();
+  
 }
  
 // ----------------------------------------------------------------------------
@@ -145,9 +155,26 @@ void ZumoRobot::SetMotorSpeed(int new_speed, ZumoMotors zumo_motors){
  
 // ----------------------------------------------------------------------------
  
-void RotateToAngle(int angle){
+void ZumoRobot::ReadRotationWithEncoders(bool left){
   
-  // Use gyro or wheel encoders
+  // Using wheel encoders
+  int16_t counts_left = encoders.getCountsLeft();
+  int16_t counts_right = encoders.getCountsRight();
+
+  if(left){
+    if(counts_left < desired_left_encoder){ // about 90 degrees to the left
+        motors.setSpeeds(0, 0);
+        Serial1.write((int)kGUIData_FinishedAutoRotation);
+        current_state = kZumoState_Stopped;
+    }
+  }
+  else{
+    if(counts_right < desired_right_encoder){ // about 90 degrees to the right
+        motors.setSpeeds(0, 0);
+        Serial1.write((int)kGUIData_FinishedAutoRotation);
+        current_state = kZumoState_Stopped;
+    } 
+  }
   
 }
  
@@ -156,11 +183,11 @@ void RotateToAngle(int angle){
 void ZumoRobot::DetectLines(){
   
   line_sensors.readCalibrated(line_sensors_values);
-  //Serial1.write(line_sensors_values[4]);
   
   if(line_sensors_values[2] > 150){ // Center
     // Stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
+    current_state = kZumoState_Stopped;
     ledYellow(0);
     // Send message to GUI
     ledGreen(1);
@@ -175,10 +202,10 @@ void ZumoRobot::DetectLines(){
     SetMotorSpeed(0, kZumoMotors_Both);
     delay(50);
     // Turn a bit to the left
-    SetMotorSpeed(100, kZumoMotors_Left);
+    SetMotorSpeed(ZUMO_SPEED / 2, kZumoMotors_Left);
     delay(100);
     // Continue forward
-    SetMotorSpeed(200, kZumoMotors_Both);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
   }
   else if(line_sensors_values[4] > 150){ // Right
     // Right sensor detected border
@@ -187,10 +214,10 @@ void ZumoRobot::DetectLines(){
     SetMotorSpeed(0, kZumoMotors_Both);
     delay(50);
     // Turn a bit to the right
-    SetMotorSpeed(100, kZumoMotors_Right);
+    SetMotorSpeed(ZUMO_SPEED / 2, kZumoMotors_Right);
     delay(100);
     // Continue forward
-    SetMotorSpeed(200, kZumoMotors_Both);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
   }
   else{
     // Do nothing  
@@ -228,7 +255,7 @@ void ZumoRobot::ReadSerialData(){
     manual_mode = true;
     
     current_state = kZumoState_Forwarding;
-    SetMotorSpeed(200, kZumoMotors_Both);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
     break;
   }
   case kZumoData_ManualBackward:{
@@ -236,7 +263,7 @@ void ZumoRobot::ReadSerialData(){
     manual_mode = true;
     
     current_state = kZumoState_Backwarding;
-    SetMotorSpeed(-200, kZumoMotors_Both);
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Both);
     break;
   }
   case kZumoData_ManualTurnLeft:{
@@ -244,8 +271,8 @@ void ZumoRobot::ReadSerialData(){
     manual_mode = true;
     
     current_state = kZumoState_TurningLeft;
-    SetMotorSpeed(100, kZumoMotors_Right);
-    SetMotorSpeed(-100, kZumoMotors_Left);
+    SetMotorSpeed(ZUMO_SPEED / 2, kZumoMotors_Right);
+    SetMotorSpeed(-ZUMO_SPEED / 2, kZumoMotors_Left);
     break;
   }
   case kZumoData_ManualTurnRight:{
@@ -253,8 +280,8 @@ void ZumoRobot::ReadSerialData(){
     manual_mode = true;
     
     current_state = kZumoState_TurningRight;
-    SetMotorSpeed(-100, kZumoMotors_Right);
-    SetMotorSpeed(100, kZumoMotors_Left);
+    SetMotorSpeed(-ZUMO_SPEED / 2, kZumoMotors_Right);
+    SetMotorSpeed(ZUMO_SPEED / 2, kZumoMotors_Left);
     break;
   }
   case kZumoData_SwitchManualMode:{
@@ -269,7 +296,7 @@ void ZumoRobot::ReadSerialData(){
     manual_mode = false;
 
     current_state = kZumoState_Forwarding;
-    SetMotorSpeed(200, kZumoMotors_Both);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
     break;
   }
   case kZumoData_AutonomousTurnLeft: {
@@ -278,6 +305,10 @@ void ZumoRobot::ReadSerialData(){
     manual_mode = false;
     
     current_state = kZumoState_TurningLeft;
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
+    // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
+    desired_left_encoder = encoders.getCountsLeft() - 700;
     break;
   }
   case kZumoData_AutonomousTurnRight: {
@@ -286,6 +317,10 @@ void ZumoRobot::ReadSerialData(){
     manual_mode = false;
     
     current_state = kZumoState_TurningRight;
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
+    // Calculate right encoder expected value for 90 degrees right turn (-700 is about 90 degrees)
+    desired_right_encoder = encoders.getCountsRight() - 700;
     break;
   }
   default:{

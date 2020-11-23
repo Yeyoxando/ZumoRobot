@@ -58,20 +58,30 @@ void serialEvent(Serial serialPort){
       break;
     }
     case 101:{ // kGUIData_ReachedFrontWall
-      serialPort.write(6);
-      mode_toggle.setState(0);
-      mode_label.setText("Manual mode");
-      println("Zumo changed to manual mode");
-      manual_mode = true;
+      //serialPort.write(6);
+      //mode_toggle.setState(0);
+      //mode_label.setText("Manual mode");
+      //println("Zumo changed to manual mode");
+      //manual_mode = true;
       // Enable usable buttons
-      EnableButton(backward_button);
+      //EnableButton(backward_button);
       EnableButton(left_button);
       EnableButton(right_button);
       
-      current_task_label.setText("Currently performing: Task 3");
+      current_task_label.setText("Currently performing: Task 3 & 4");
       zumo_msg_fill_label.setText(zumo_data_strings[0]);
       gui_help_fill_label.setText(gui_help_strings[2]);
-      completed_button.setVisible(true);
+      //completed_button.setVisible(true);
+      break;
+    }
+    case 102:{
+      zumo_msg_fill_label.setText("");
+      gui_help_fill_label.setText("");
+      DisableButton(left_button);
+      DisableButton(right_button);
+      
+      zumoGUI.serialPort.write(7);
+      current_task_label.setText("Current performing: Task 2");
       break;
     }
     default:{
@@ -109,6 +119,7 @@ enum ZumoData {
 enum GUIData{
   kGUIData_SwitchManualMode = 100,
   kGUIData_ReachedFrontWall = 101,
+  kGUIData_FinishedAutoRotation = 102,
 };
 
 */

@@ -15,6 +15,8 @@
 
 /// @brief: 
 #define ZUMO_SPEED 200
+/// @brief: 
+#define MAX_ROOMS 5
 
 /// @brief: Enumerator to indicate current zumo state
 enum ZumoState {
@@ -37,8 +39,9 @@ enum ZumoData {
   kZumoData_ManualTurnRight = 5,     // Task 1
   kZumoData_SwitchManualMode = 6,
   kZumoData_AutonomousForward = 7,   // Task 2
-  kZumoData_AutonomousTurnLeft = 8,  // Task 4
-  kZumoData_AutonomousTurnRight = 9, // Task 4
+  kZumoData_AutonomousTurnLeft = 8,  // Task 4 & 5
+  kZumoData_AutonomousTurnRight = 9, // Task 4 & 5
+  kZumoData_FoundRoom = 10,          // Task 5
 };
 
 /// @brief: Indicates all the data that could be send from the Zumo to the GUI
@@ -46,6 +49,8 @@ enum GUIData{
   kGUIData_SwitchManualMode = 100,
   kGUIData_ReachedFrontWall = 101,
   kGUIData_FinishedAutoRotation = 102,
+  kGUIData_EmptyRoom = 103,
+  kGUIData_ObjectInRoom = 104,
 };
 
 /// @brief: Enumerator to indicate zumo motors
@@ -53,6 +58,12 @@ enum ZumoMotors {
   kZumoMotors_Both = 0,
   kZumoMotors_Right = 1,
   kZumoMotors_Left = 2  
+};
+
+/// @brief: 
+struct MazeRoom{
+  int room_number = -1; // If equal to -1 is not initialized
+  bool is_at_left = false;  
 };
 
 /// @brief: 
@@ -110,6 +121,11 @@ private:
   uint16_t line_sensors_values[5];
   /// @brief: 
   bool manual_mode;
+  /// @brief
+  int found_rooms_count;
+  /// @brief
+  MazeRoom found_rooms[MAX_ROOMS]; // Wish it could be a vector :( (Tried with arv_stl but it didn't compile)
+
 
   /// @brief: 
   Zumo32U4Buzzer buzzer;
@@ -126,4 +142,4 @@ private:
   
 };
 
-#endif //__ZUMO_UTILITY_H__
+#endif // __ZUMO_UTILITY_H__

@@ -46,7 +46,7 @@ public void modeToggleClick(GImageToggleButton source, GEvent event) { //_CODE_:
 
 public void roomButtonClick(GButton source, GEvent event) { //_CODE_:room_button:437079:
   
-  
+  roomButton();
   
 } //_CODE_:room_button:437079:
 
@@ -102,7 +102,7 @@ public void createGUI(){
   gui_help_fill_label.setOpaque(true);
   room_button = new GButton(this, 300, 150, 80, 30);
   room_button.setText("Room!");
-  room_button.setLocalColorScheme(GCScheme.YELLOW_SCHEME);
+  room_button.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   room_button.addEventHandler(this, "roomButtonClick");
 }
 

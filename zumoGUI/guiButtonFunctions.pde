@@ -21,7 +21,7 @@ void forwardButton(GEvent event){
       zumoGUI.serialPort.write(7);
       current_task_label.setText("Current performing: Task 2");
       gui_help_fill_label.setText(gui_help_strings[3]);
-      EnableButton(room_button);
+      EnableButton(room_button, true);
     }
   }
   if(event == GEvent.RELEASED || event == GEvent.CLICKED){
@@ -32,7 +32,7 @@ void forwardButton(GEvent event){
     }
     else{
       // Disable the button when is autonomous forwarding
-      DisableButton(forward_button);
+      DisableButton(forward_button, false);
     }
   }
   
@@ -140,21 +140,36 @@ void modeToggleButton(){
     current_task_label.setText("Current performing: Task 1");
     zumoGUI.manual_mode = true;
     // Enable usable buttons
-    zumoGUI.EnableButton(forward_button);
-    zumoGUI.EnableButton(backward_button);
-    zumoGUI.EnableButton(left_button);
-    zumoGUI.EnableButton(right_button);
+    zumoGUI.EnableButton(forward_button, false);
+    zumoGUI.EnableButton(backward_button, false);
+    zumoGUI.EnableButton(left_button, false);
+    zumoGUI.EnableButton(right_button, false);
   }
   else{
     mode_label.setText("Autonomous mode");
     println("Zumo changed to autonomous mode");
     zumoGUI.manual_mode = false;
     // Disable not usable buttons
-    zumoGUI.DisableButton(backward_button);
-    zumoGUI.DisableButton(left_button);
-    zumoGUI.DisableButton(right_button);
+    zumoGUI.DisableButton(backward_button, false);
+    zumoGUI.DisableButton(left_button, false);
+    zumoGUI.DisableButton(right_button, false);
   }
 
+}
+
+// ----------------------------------------------------------------------------
+
+/**
+* @brief:
+*/
+void roomButton(){
+  
+  zumoGUI.serialPort.write(10);
+  current_task_label.setText("Current performing: Task 5");
+  DisableButton(room_button, true);
+  EnableButton(left_button, false);
+  EnableButton(right_button, false);
+  
 }
 
 // ----------------------------------------------------------------------------

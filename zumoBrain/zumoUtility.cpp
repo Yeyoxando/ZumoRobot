@@ -31,6 +31,7 @@ void ZumoRobot::InitializeZumo(){
   desired_left_encoder = 0;
   desired_right_encoder = 0;
   manual_mode = true;
+  found_rooms_count = 0;
 
   InitLineSensors();
   InitProximitySensors();
@@ -300,24 +301,53 @@ void ZumoRobot::ReadSerialData(){
     ledRed(1);
     manual_mode = false;
     
-    current_state = kZumoState_TurningLeft;
-    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
-    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-    // Calculate left encoder expected value for 90 degrees left turn (-675 is about 90 degrees)
-    desired_left_encoder = encoders.getCountsLeft() - 675;
+    if(current_state == kZumoState_ScanningRoom){
+      // Store that the room is at left
+      // Set zumo to advance a bit and then turn to scan the room
+    }
+    else{
+      current_state = kZumoState_TurningLeft;
+      SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
+      SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
+      // Calculate left encoder expected value for 90 degrees left turn (-675 is about 90 degrees)
+      desired_left_encoder = encoders.getCountsLeft() - 675;
+    }
     break;
   }
   case kZumoData_AutonomousTurnRight: {
     // Perform Task 4
     ledRed(1);
     manual_mode = false;
-    
-    current_state = kZumoState_TurningRight;
-    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
-    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-    // Calculate right encoder expected value for 90 degrees right turn (-675 is about 90 degrees)
-    desired_right_encoder = encoders.getCountsRight() - 675;
+
+    if(current_state == kZumoState_ScanningRoom){
+      // Store that the room is at left
+      // Set zumo to advance a bit and then turn to scan the room
+    }
+    else{
+      current_state = kZumoState_TurningRight;
+      SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
+      SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
+      // Calculate right encoder expected value for 90 degrees right turn (-675 is about 90 degrees)
+      desired_right_encoder = encoders.getCountsRight() - 675;
+    }
     break;
+  }
+  case kZumoData_FoundRoom: {
+    // Perform Task 5
+    ledRed(1);
+    manual_mode = false;
+
+    // Set new state and stop zumo
+    current_state = kZumoState_ScanningRoom;
+    SetMotorSpeed(0, kZumoMotors_Both);
+    if(found_rooms_count < MAX_ROOMS){
+      // Add a new room to the array, set only the number for now
+      MazeRoom new_room;
+      new_room.room_number = found_rooms_count;
+      found_rooms[found_rooms_count] = new_room;
+      found_rooms_count++;
+    }
+    break;  
   }
   default:{
     break;

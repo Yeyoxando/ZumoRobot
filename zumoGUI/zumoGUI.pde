@@ -123,8 +123,8 @@ public static void GUI_FinishedAutoRotation(){
   
   zumo_msg_fill_label.setText("");
   gui_help_fill_label.setText("");
-  DisableButton(left_button);
-  DisableButton(right_button);
+  DisableButton(left_button, false);
+  DisableButton(right_button, false);
   
   zumoGUI.serialPort.write(7);
   current_task_label.setText("Current performing: Task 2");

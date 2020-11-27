@@ -3,9 +3,9 @@
 // e-mail: c0022981@my.shu.ac.uk
 
 
-// ------------------------------ VARIABLES -----------------------------------
+// ------------------------- GUI HELPER VARIABLES ------------------------------
 
-String zumo_data_strings[] = {
+static String zumo_data_strings[] = {
 // String 1
 "Detected a wall in front of the robot.\nTurn Left or Right.",
 // String 2
@@ -14,7 +14,7 @@ String zumo_data_strings[] = {
 
 // ----------------------------------------------------------------------------
 
-String gui_help_strings[] = {
+static String gui_help_strings[] = {
 // String 1
 "",
 // String 2
@@ -26,8 +26,11 @@ String gui_help_strings[] = {
 
 // ----------------------------------------------------------------------------
 
-// --------------------------- JAVA FUNCTIONS ---------------------------------
+// -------------------------- GUI HELPER FUNCTIONS ----------------------------
 
+/*
+*
+*/
 public static void EnableButton(GButton button){
   
   button.setEnabled(true);
@@ -37,10 +40,27 @@ public static void EnableButton(GButton button){
 
 // ----------------------------------------------------------------------------
 
+/*
+*
+*/
 public static void DisableButton(GButton button){
   
   button.setEnabled(false);
   button.setLocalColorScheme(GCScheme.RED_SCHEME);
+  
+}
+
+// ----------------------------------------------------------------------------
+
+/*
+* : Enable some buttons to trigger different click events 
+*/
+public static void SetButtonsToFireAllEvents(){
+  
+  forward_button.fireAllEvents(true);
+  backward_button.fireAllEvents(true);
+  left_button.fireAllEvents(true);
+  right_button.fireAllEvents(true);
   
 }
 

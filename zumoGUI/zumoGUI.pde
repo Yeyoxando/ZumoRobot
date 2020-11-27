@@ -28,6 +28,7 @@ public void setup(){
   // G4P GUI
   createGUI();
   customGUI();
+  SetButtonsToFireAllEvents();
   
   // Serial connection
   // Serial is on my COM4 port
@@ -58,33 +59,15 @@ void serialEvent(Serial serialPort){
       break;
     }
     case 101:{ // kGUIData_ReachedFrontWall
-      //serialPort.write(6);
-      //mode_toggle.setState(0);
-      //mode_label.setText("Manual mode");
-      //println("Zumo changed to manual mode");
-      //manual_mode = true;
-      // Enable usable buttons
-      //EnableButton(backward_button);
-      EnableButton(left_button);
-      EnableButton(right_button);
-      
-      current_task_label.setText("Currently performing: Task 3 & 4");
-      zumo_msg_fill_label.setText(zumo_data_strings[0]);
-      gui_help_fill_label.setText(gui_help_strings[2]);
-      //completed_button.setVisible(true);
+      GUI_ReachedFrontWall();
       break;
     }
     case 102:{
-      zumo_msg_fill_label.setText("");
-      gui_help_fill_label.setText("");
-      DisableButton(left_button);
-      DisableButton(right_button);
-      
-      zumoGUI.serialPort.write(7);
-      current_task_label.setText("Current performing: Task 2");
+     GUI_FinishedAutoRotation();
       break;
     }
     default:{
+      println("\n Unknown data: " + value);
       break;
     }
   };
@@ -97,6 +80,41 @@ void serialEvent(Serial serialPort){
 
 // Use this method to add additional statements to customise the GUI controls
 public void customGUI(){
+  
+}
+
+// ----------------------------------------------------------------------------
+
+public static void GUI_ReachedFrontWall(){
+  
+  //serialPort.write(6);
+  //mode_toggle.setState(0);
+  //mode_label.setText("Manual mode");
+  //println("Zumo changed to manual mode");
+  //manual_mode = true;
+  // Enable usable buttons
+  //EnableButton(backward_button);
+  EnableButton(left_button);
+  EnableButton(right_button);
+  
+  current_task_label.setText("Currently performing: Task 3 & 4");
+  zumo_msg_fill_label.setText(zumo_data_strings[0]);
+  gui_help_fill_label.setText(gui_help_strings[2]);
+  //completed_button.setVisible(true);
+  
+}
+
+// ----------------------------------------------------------------------------
+
+public static void GUI_FinishedAutoRotation(){
+  
+  zumo_msg_fill_label.setText("");
+  gui_help_fill_label.setText("");
+  DisableButton(left_button);
+  DisableButton(right_button);
+  
+  zumoGUI.serialPort.write(7);
+  current_task_label.setText("Current performing: Task 2");
   
 }
 

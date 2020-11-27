@@ -9,13 +9,8 @@
 
 /* ToDo
   - Check for the change between autonomous and manual, it may have some errors
-  - Clean and improve line detector code
-  - Maybe use sensor calibrated variables for max and min (calibratedMinimumOff, calibratedMaximumOff)
-  - Try setting this values manually
-  - Maybe do automatic calibration
+  - Do automatic line sensor calibration
   - Keep improving GUI messages system
-  - Clean and refactorize the GUI code, make functions where possible
-  - Adjust autonomous turn a bit more, not exactly 90 degrees, should be like 675 +-
 */
 
 #define ZUMO_SPEED 200

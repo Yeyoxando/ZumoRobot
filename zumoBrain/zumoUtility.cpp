@@ -102,10 +102,6 @@ void ZumoRobot::InitLineSensors(){
     line_sensors.calibrate();
   }
 
-  // Retrieve max and min values from the calibration for debug purposes
-  Serial.write(line_sensors.calibratedMinimumOff);
-  Serial.write(line_sensors.calibratedMaximumOff);
-
   ledGreen(0);
 
 }
@@ -184,7 +180,7 @@ void ZumoRobot::DetectLines(){
   
   line_sensors.readCalibrated(line_sensors_values);
   
-  if(line_sensors_values[2] > 150){ // Center
+  if(line_sensors_values[2] > 300){ // Center
     // Stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
     current_state = kZumoState_Stopped;
@@ -195,7 +191,7 @@ void ZumoRobot::DetectLines(){
     delay(100);
     ledGreen(0);
   }
-  else if(line_sensors_values[0] > 150){ // Left
+  else if(line_sensors_values[0] > 300){ // Left
     // Left sensor detected border
     ledYellow(1);
     // Stop zumo
@@ -207,7 +203,7 @@ void ZumoRobot::DetectLines(){
     // Continue forward
     SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
   }
-  else if(line_sensors_values[4] > 150){ // Right
+  else if(line_sensors_values[4] > 300){ // Right
     // Right sensor detected border
     ledYellow(1);
     // Stop zumo
@@ -307,8 +303,8 @@ void ZumoRobot::ReadSerialData(){
     current_state = kZumoState_TurningLeft;
     SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
     SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-    // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-    desired_left_encoder = encoders.getCountsLeft() - 700;
+    // Calculate left encoder expected value for 90 degrees left turn (-675 is about 90 degrees)
+    desired_left_encoder = encoders.getCountsLeft() - 675;
     break;
   }
   case kZumoData_AutonomousTurnRight: {
@@ -319,8 +315,8 @@ void ZumoRobot::ReadSerialData(){
     current_state = kZumoState_TurningRight;
     SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
     SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-    // Calculate right encoder expected value for 90 degrees right turn (-700 is about 90 degrees)
-    desired_right_encoder = encoders.getCountsRight() - 700;
+    // Calculate right encoder expected value for 90 degrees right turn (-675 is about 90 degrees)
+    desired_right_encoder = encoders.getCountsRight() - 675;
     break;
   }
   default:{

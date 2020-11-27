@@ -40,32 +40,15 @@ public void rightButtonClick(GButton source, GEvent event) { //_CODE_:right_butt
 
 public void modeToggleClick(GImageToggleButton source, GEvent event) { //_CODE_:mode_toggle:529271:
   
-  modeToggleButton(event);
+  modeToggleButton();
   
 } //_CODE_:mode_toggle:529271:
 
-public void completedButtonClick(GButton source, GEvent event) { //_CODE_:completed_button:605471:
- 
-  // DEPRECATED FOR NOW
-  println("Clicked completed button");
-  // Tell zumo to continue
-  completed_button.setVisible(false);
-  zumo_msg_fill_label.setText("");
-  gui_help_fill_label.setText("");
+public void roomButtonClick(GButton source, GEvent event) { //_CODE_:room_button:437079:
   
-  mode_toggle.setState(1);
-  mode_label.setText("Autonomous mode");
-  println("Zumo changed to autonomous mode");
-  zumoGUI.manual_mode = false;
-  // Disable not usable buttons
-  DisableButton(backward_button);
-  DisableButton(left_button);
-  DisableButton(right_button);
   
-  zumoGUI.serialPort.write(7);
-  current_task_label.setText("Current performing: Task 2");
   
-} //_CODE_:completed_button:605471:
+} //_CODE_:room_button:437079:
 
 
 
@@ -107,21 +90,20 @@ public void createGUI(){
   current_task_label.setText("Current performing: Task 1");
   current_task_label.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   current_task_label.setOpaque(true);
-  gui_help_label = new GLabel(this, 6, 188, 80, 20);
-  gui_help_label.setTextAlign(GAlign.LEFT, GAlign.MIDDLE);
+  gui_help_label = new GLabel(this, 6, 160, 80, 20);
+  gui_help_label.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   gui_help_label.setText("GUI help");
   gui_help_label.setOpaque(false);
-  completed_button = new GButton(this, 300, 150, 80, 30);
-  completed_button.setText("Completed");
-  completed_button.setLocalColorScheme(GCScheme.YELLOW_SCHEME);
-  completed_button.addEventHandler(this, "completedButtonClick");
-  completed_button.setVisible(false);
-  zumo_msg_fill_label = new GLabel(this, 6, 24, 200, 150);
+  zumo_msg_fill_label = new GLabel(this, 6, 24, 200, 120);
   zumo_msg_fill_label.setTextAlign(GAlign.LEFT, GAlign.TOP);
   zumo_msg_fill_label.setOpaque(true);
-  gui_help_fill_label = new GLabel(this, 6, 212, 200, 100);
+  gui_help_fill_label = new GLabel(this, 6, 182, 200, 150);
   gui_help_fill_label.setTextAlign(GAlign.LEFT, GAlign.TOP);
   gui_help_fill_label.setOpaque(true);
+  room_button = new GButton(this, 300, 150, 80, 30);
+  room_button.setText("Room!");
+  room_button.setLocalColorScheme(GCScheme.YELLOW_SCHEME);
+  room_button.addEventHandler(this, "roomButtonClick");
 }
 
 // Variable declarations 
@@ -130,11 +112,11 @@ static GButton forward_button;
 static GButton backward_button; 
 static GButton left_button; 
 static GButton right_button; 
-GButton completed_button; 
 static GImageToggleButton mode_toggle; 
 static GLabel mode_label; 
-GLabel zumo_msg_label; 
-GLabel gui_help_label; 
+static GLabel zumo_msg_label; 
 static GLabel current_task_label; 
+static GLabel gui_help_label; 
 static GLabel zumo_msg_fill_label; 
 static GLabel gui_help_fill_label; 
+static GButton room_button; 

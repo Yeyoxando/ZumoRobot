@@ -7,13 +7,15 @@
 ZumoRobot zumo;
 
 void setup() {
-  
+
+  // Setup and initialize zumo variables and sensors
   zumo.InitializeZumo();
 
 }
 
 void loop() {
-  
+
+  // Update current zumo state and performs all neccesary actions for the rescue operation
   zumo.UpdateZumo();
 
 }

@@ -4,8 +4,9 @@
 
 // -------------------------- GUI BUTTON FUNCTIONS ----------------------------
 
-/*
-*
+/**
+* @brief:
+* @param event:
 */
 void forwardButton(GEvent event){
   
@@ -19,7 +20,8 @@ void forwardButton(GEvent event){
       // Activate task 2 if zumo is autonomous
       zumoGUI.serialPort.write(7);
       current_task_label.setText("Current performing: Task 2");
-      gui_help_fill_label.setText("");
+      gui_help_fill_label.setText(gui_help_strings[3]);
+      EnableButton(room_button);
     }
   }
   if(event == GEvent.RELEASED || event == GEvent.CLICKED){
@@ -38,8 +40,9 @@ void forwardButton(GEvent event){
 
 // ----------------------------------------------------------------------------
 
-/*
-*
+/**
+* @brief:
+* @param event:
 */
 void backwardButton(GEvent event){
 
@@ -65,8 +68,9 @@ void backwardButton(GEvent event){
 
 // ----------------------------------------------------------------------------
 
-/*
-*
+/**
+* @brief:
+* @param event:
 */
 void leftButton(GEvent event){
 
@@ -93,8 +97,9 @@ void leftButton(GEvent event){
 
 // ----------------------------------------------------------------------------
 
-/*
-*
+/**
+* @brief:
+* @param event:
 */
 void rightButton(GEvent event){
 
@@ -121,10 +126,10 @@ void rightButton(GEvent event){
 
 // ----------------------------------------------------------------------------
 
-/*
-*
+/**
+* @brief:
 */
-void modeToggleButton(GEvent event){
+void modeToggleButton(){
 
   // Indicate the zumo to change its behavior
   //zumoGUI.serialPort.write(6);

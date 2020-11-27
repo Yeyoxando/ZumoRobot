@@ -13,9 +13,10 @@
   - Keep improving GUI messages system
 */
 
+/// @brief: 
 #define ZUMO_SPEED 200
 
-// Enumerator to indicate current zumo state
+/// @brief: Enumerator to indicate current zumo state
 enum ZumoState {
   kZumoState_Stopped = 0,
   kZumoState_Forwarding = 1,
@@ -26,7 +27,7 @@ enum ZumoState {
   kZumoState_Returning = 6
 };
 
-// Indicates all the data that could be received from the GUI to convert it to robot actions
+/// @brief: Indicates all the data that could be received from the GUI to convert it to Zumo actions
 enum ZumoData {
   kZumoData_NoDataReceived = 0,
   kZumoData_Stop = 1,                // Task 1
@@ -40,66 +41,87 @@ enum ZumoData {
   kZumoData_AutonomousTurnRight = 9, // Task 4
 };
 
-// Indicates all the data that could be send from the Zumo to the GUI
+/// @brief: Indicates all the data that could be send from the Zumo to the GUI
 enum GUIData{
   kGUIData_SwitchManualMode = 100,
   kGUIData_ReachedFrontWall = 101,
   kGUIData_FinishedAutoRotation = 102,
 };
 
-// Enumerator to indicate zumo motors
+/// @brief: Enumerator to indicate zumo motors
 enum ZumoMotors {
   kZumoMotors_Both = 0,
   kZumoMotors_Right = 1,
   kZumoMotors_Left = 2  
 };
 
+/// @brief: 
 class ZumoRobot{
 public:
   ZumoRobot();
   ~ZumoRobot();
 
-  // Sets neccesary things for zumo to work
+  /// @brief: Sets neccesary things for zumo to work
   void InitializeZumo();
   
-  // Do all the neccessary checks and updates the zumo state
+  /// @brief: Do all the neccessary checks and updates the zumo state
   void UpdateZumo();
 
 private:
   // --------------- Initialize functions ----------------------
-  // Initializes and calibrates line sensors
+  /// @brief: Initializes and calibrates line sensors
   void InitLineSensors();
-  // Initializes and calibrates proximity sensors
+  /// @brief: Initializes and calibrates proximity sensors
   void InitProximitySensors();
-  // Initializes and calibrates the gyroscope
+  /// @brief: Initializes and calibrates the gyroscope
   void InitGyroscope();
 
   // ----------------- Utility functions -----------------------
-  // Set directly a new speed for the motors
+  /**
+   *  @brief: Set directly a new speed for the motors
+   *  @param new_speed:
+   *  @param zumo_motors:
+   */
   void SetMotorSpeed(int new_speed, ZumoMotors zumo_motors);
-  // Rotates the zumo robot until encoders reach a certain value
+  /** 
+   * @brief: Rotates the zumo robot until encoders reach a certain value 
+   * @param left:
+   */
   void ReadRotationWithEncoders(bool left);
-  // Detect if the sensors find any line and return true if it do
+  /// @brief: Detect if the sensors find any line and return true if it do
   void DetectLines();
-  // Plays the buzzer and turn on the led for its rescue operation
+  /// @brief: Plays the buzzer and turn on the led for its rescue operation
   void PlayFollowMeGuide();
-  // Reads the incoming data from the serial
+  /// @brief: Reads the incoming data from the serial
   void ReadSerialData();
 
   // --------------------- Variables ---------------------------
+  /// @brief: 
   ZumoState current_state;
+  /// @brief: 
   int current_left_speed;
+  /// @brief: 
   int current_right_speed;
+  /// @brief: 
   int desired_left_encoder;
+  /// @brief: 
   int desired_right_encoder;
+  /// @brief: 
   uint16_t line_sensors_values[5];
+  /// @brief: 
   bool manual_mode;
 
+  /// @brief: 
   Zumo32U4Buzzer buzzer;
+  /// @brief: 
   Zumo32U4Motors motors;
+  /// @brief: 
   Zumo32U4Encoders encoders;
-  Zumo32U4IMU imu; // Inertial Measurement Unit (Gyro)
+  /// @brief: Inertial Measurement Unit (Gyro)
+  Zumo32U4IMU imu;
+  /// @brief: 
   Zumo32U4LineSensors line_sensors;
+  /// @brief: 
   Zumo32U4ProximitySensors prox_sensors;
   
 };

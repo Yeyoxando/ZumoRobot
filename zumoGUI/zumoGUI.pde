@@ -67,7 +67,7 @@ void serialEvent(Serial serialPort){
       break;
     }
     case 102:{
-     GUI_FinishedAutoRotation();
+      GUI_FinishedAutoRotation();
       break;
     }
     default:{

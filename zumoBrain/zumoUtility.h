@@ -95,12 +95,20 @@ private:
    */
   void SetMotorSpeed(int new_speed, ZumoMotors zumo_motors);
   /** 
-   * @brief: Rotates the zumo robot until encoders reach a certain value 
+   * @brief: 
    * @param left:
+   * @return:
    */
-  void ReadRotationWithEncoders(bool left);
+  bool ReachedEncodersRotation(bool left);
+  /** 
+   * @brief: 
+   * @return:
+   */
+  bool ReachedEncodersPosition();
   /// @brief: Detect if the sensors find any line and return true if it do
   void DetectLines();
+  /// @brief:
+  void ScanRoom();
   /// @brief: Plays the buzzer and turn on the led for its rescue operation
   void PlayFollowMeGuide();
   /// @brief: Reads the incoming data from the serial
@@ -121,6 +129,10 @@ private:
   uint16_t line_sensors_values[5];
   /// @brief: 
   bool manual_mode;
+  /// @brief: 
+  bool enter_room;
+  /// @brief: 
+  bool wandering_room;
   /// @brief
   int found_rooms_count;
   /// @brief

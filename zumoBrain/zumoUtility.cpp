@@ -29,6 +29,8 @@ void ZumoRobot::InitializeZumo(){
   current_scanning_action = kZumoScanningAction_None;
   current_left_speed = 0;
   current_right_speed = 0;
+  current_left_encoder = 0;
+  current_right_encoder = 0;
   desired_left_encoder = 0;
   desired_right_encoder = 0;
   manual_mode = true;
@@ -54,7 +56,11 @@ void ZumoRobot::UpdateZumo(){
   case kZumoState_Forwarding:{
     // Only check for lines if it is on autonomous mode
     if(!manual_mode){
-      DetectLines();
+      if(DetectLines()){
+        current_state = kZumoState_Stopped;
+        // Send message to GUI
+        Serial1.write((int)kGUIData_ReachedFrontWall);
+      }
     }
     break;
   }
@@ -200,20 +206,15 @@ bool ZumoRobot::ReachedEncodersPosition(){
 
 // ----------------------------------------------------------------------------
  
-void ZumoRobot::DetectLines(){
+bool ZumoRobot::DetectLines(){
   
   line_sensors.readCalibrated(line_sensors_values);
   
   if(line_sensors_values[2] > 300){ // Center
     // Stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
-    current_state = kZumoState_Stopped;
     ledYellow(0);
-    // Send message to GUI
-    ledGreen(1);
-    Serial1.write((int)kGUIData_ReachedFrontWall);
-    delay(100);
-    ledGreen(0);
+    return true;
   }
   else if(line_sensors_values[0] > 300){ // Left
     // Left sensor detected border
@@ -243,19 +244,24 @@ void ZumoRobot::DetectLines(){
     // Do nothing  
     ledYellow(0);
   }
+
+  return false;
   
 }
  
 // ----------------------------------------------------------------------------
 
 void ZumoRobot::ScanRoom(){
+  
+  MazeRoom current_room = found_rooms[found_rooms_count - 1];
+  
   switch(current_scanning_action){
     case kZumoScanningAction_None:{
       break;  
     }
     case kZumoScanningAction_Entering:{
       if(ReachedEncodersPosition()){
-        if(found_rooms[found_rooms_count - 1].is_at_left){
+        if(current_room.is_at_left){
           SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
           SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
           // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
@@ -272,30 +278,46 @@ void ZumoRobot::ScanRoom(){
       break;  
     }
     case kZumoScanningAction_Positioning:{
-      if(found_rooms[found_rooms_count - 1].is_at_left){
+      if(current_room.is_at_left){
         if(ReachedEncodersRotation(true)){
           SetMotorSpeed(0, kZumoMotors_Both);
+          delay(100);
+          current_left_encoder = encoders.getCountsLeft();
           current_scanning_action = kZumoScanningAction_Measuring;
+          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
         }
       }
       else{
         if(ReachedEncodersRotation(false)){
           SetMotorSpeed(0, kZumoMotors_Both);
+          delay(100);
+          current_left_encoder = encoders.getCountsRight();
           current_scanning_action = kZumoScanningAction_Measuring;
+          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
         }
       }
       break;  
     }
     case kZumoScanningAction_Measuring:{
-      // Go forward
-      // Store room length
+      // Store room length when hit a line in the front
+      if(current_room.is_at_left){
+        if(DetectLines()){
+          current_room.room_length = encoders.getCountsLeft() - current_left_encoder;
+        }
+      }
+      else{
+        if(DetectLines()){
+          current_room.room_length = encoders.getCountsRight() - current_right_encoder;
+        }
+      }
+      // Divide total length by half zumo size = times to repeat the wandering action
       // Turn right 90
-      // Go forward
-      // Store room wide
+      // Measure width
+      // Start room wandering
       break;  
     }
     case kZumoScanningAction_Wandering:{
-      // Displace in zig zag with half zumo size to scan completely
+      // Displace in zig zag with half zumo size to scan completely with the total repeat number caculated in th previous step
       // Finish wandering room
       break;  
     }
@@ -438,7 +460,7 @@ void ZumoRobot::ReadSerialData(){
     current_state = kZumoState_ScanningRoom;
     SetMotorSpeed(0, kZumoMotors_Both);
     if(found_rooms_count < MAX_ROOMS){
-      // Add a new room to the array, set only the number for now
+      // Add a new room to the array, set only the number, rest of the data will be filled while scanning the room
       MazeRoom new_room;
       new_room.room_number = found_rooms_count;
       found_rooms[found_rooms_count] = new_room;

@@ -13,9 +13,13 @@
   - Keep improving GUI messages system
 */
 
-/// @brief: 
+/// @brief: Default zumo speed
 #define ZUMO_SPEED 200
-/// @brief: 
+/// @brief: indicates how much the encoders should advance to perform a 90 degree turn
+#define ZUMO_TURN_90 700
+/// @brief: indicates how much the encoders should advance to displace an amount equal to the zumo size
+#define ZUMO_SIZE_MOVE 700
+/// @brief: max number that zumo can visit (Instead of a vector or a collection structure to initialize an array)
 #define MAX_ROOMS 5
 
 /// @brief: Enumerator to indicate current zumo state
@@ -60,6 +64,7 @@ enum ZumoMotors {
   kZumoMotors_Left = 2  
 };
 
+/// @brief: All the different actions that zumo performs to scan a room
 enum ZumoScanningAction{
   kZumoScanningAction_None = 0,
   kZumoScanningAction_Entering = 1,
@@ -69,22 +74,22 @@ enum ZumoScanningAction{
   kZumoScanningAction_Returning = 5,
 };
 
-/// @brief: 
+/// @brief: structure to save visited rooms data
 struct MazeRoom{
   int room_number = -1; // If equal to -1 is not initialized
   int room_length = 0;
-  int room_width = 0;
+  int room_wide = 0;
   bool is_at_left = false;
   bool has_people = false;  
 };
 
-/// @brief: 
+/// @brief: Implements all the neccesary actions for a ZumoRobot to simulate a search and rescue operation
 class ZumoRobot{
 public:
   ZumoRobot();
   ~ZumoRobot();
 
-  /// @brief: Sets neccesary things for zumo to work
+  /// @brief: Initializes variables and sensors for zumo to work
   void InitializeZumo();
   
   /// @brief: Do all the neccessary checks and updates the zumo state
@@ -117,8 +122,11 @@ private:
    * @return:
    */
   bool ReachedEncodersPosition();
-  /// @brief: Detect if the sensors find any line and return true if it do
-  void DetectLines();
+  /** 
+   * @brief: Detect if the sensors find any line, if a side is detected it will rotate a bit
+   * @return: true if it hits the front sensor
+   */
+  bool DetectLines();
   /// @brief:
   void ScanRoom();
   /// @brief: Plays the buzzer and turn on the led for its rescue operation
@@ -135,6 +143,10 @@ private:
   int current_left_speed;
   /// @brief: 
   int current_right_speed;
+  /// @brief: 
+  int current_left_encoder;
+  /// @brief: 
+  int current_right_encoder;
   /// @brief: 
   int desired_left_encoder;
   /// @brief: 

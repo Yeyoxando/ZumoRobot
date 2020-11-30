@@ -60,10 +60,22 @@ enum ZumoMotors {
   kZumoMotors_Left = 2  
 };
 
+enum ZumoScanningAction{
+  kZumoScanningAction_None = 0,
+  kZumoScanningAction_Entering = 1,
+  kZumoScanningAction_Positioning = 2,
+  kZumoScanningAction_Measuring = 3,
+  kZumoScanningAction_Wandering = 4,
+  kZumoScanningAction_Returning = 5,
+};
+
 /// @brief: 
 struct MazeRoom{
   int room_number = -1; // If equal to -1 is not initialized
-  bool is_at_left = false;  
+  int room_length = 0;
+  int room_width = 0;
+  bool is_at_left = false;
+  bool has_people = false;  
 };
 
 /// @brief: 
@@ -118,6 +130,8 @@ private:
   /// @brief: 
   ZumoState current_state;
   /// @brief: 
+  ZumoScanningAction current_scanning_action;
+  /// @brief: 
   int current_left_speed;
   /// @brief: 
   int current_right_speed;
@@ -129,10 +143,6 @@ private:
   uint16_t line_sensors_values[5];
   /// @brief: 
   bool manual_mode;
-  /// @brief: 
-  bool enter_room;
-  /// @brief: 
-  bool wandering_room;
   /// @brief
   int found_rooms_count;
   /// @brief

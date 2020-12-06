@@ -18,7 +18,7 @@
 /// @brief: indicates how much the encoders should advance to perform a 90 degree turn
 #define ZUMO_TURN_90 700
 /// @brief: indicates how much the encoders should advance to displace an amount equal to the zumo size
-#define ZUMO_SIZE_MOVE 700
+#define ZUMO_SIZE_MOVE 900
 /// @brief: max number that zumo can visit (Instead of a vector or a collection structure to initialize an array)
 #define MAX_ROOMS 5
 
@@ -69,16 +69,18 @@ enum ZumoScanningAction{
   kZumoScanningAction_None = 0,
   kZumoScanningAction_Entering = 1,
   kZumoScanningAction_Positioning = 2,
-  kZumoScanningAction_Measuring = 3,
-  kZumoScanningAction_Wandering = 4,
-  kZumoScanningAction_Returning = 5,
+  kZumoScanningAction_MeasuringLength = 3,
+  kZumoScanningAction_MeasuringWidth = 4,
+  kZumoScanningAction_TurningLeft = 5,
+  kZumoScanningAction_TurningRight = 6,
+  kZumoScanningAction_Wandering = 7,
+  kZumoScanningAction_Returning = 8,
 };
 
 /// @brief: structure to save visited rooms data
 struct MazeRoom{
   int room_number = -1; // If equal to -1 is not initialized
   int room_length = 0;
-  int room_wide = 0;
   bool is_at_left = false;
   bool has_people = false;  
 };
@@ -124,9 +126,10 @@ private:
   bool ReachedEncodersPosition();
   /** 
    * @brief: Detect if the sensors find any line, if a side is detected it will rotate a bit
+   * @param check_only_front: will only check the front sensor
    * @return: true if it hits the front sensor
    */
-  bool DetectLines();
+  bool DetectLines(bool check_only_front = false);
   /// @brief:
   void ScanRoom();
   /// @brief: Plays the buzzer and turn on the led for its rescue operation
@@ -157,6 +160,14 @@ private:
   bool manual_mode;
   /// @brief
   int found_rooms_count;
+  /// @brief
+  int wandering_repetitions;
+  /// @brief
+  bool measured_width;
+  /// @brief
+  bool length_wandering;
+  /// @brief
+  bool left_wandering;
   /// @brief
   MazeRoom found_rooms[MAX_ROOMS]; // Wish it could be a vector :( (Tried with arv_stl but it didn't compile)
 

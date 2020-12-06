@@ -139,6 +139,7 @@ void modeToggleButton(){
     println("Zumo changed to manual mode");
     current_task_label.setText("Current performing: Task 1");
     zumoGUI.manual_mode = true;
+      zumoGUI.serialPort.write(1);
     // Enable usable buttons
     zumoGUI.EnableButton(forward_button, false);
     zumoGUI.EnableButton(backward_button, false);

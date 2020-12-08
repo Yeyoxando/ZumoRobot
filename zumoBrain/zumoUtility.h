@@ -108,39 +108,65 @@ private:
 
   // ----------------- Utility functions -----------------------
   /**
-   *  @brief: Set directly a new speed for the motors
-   *  @param new_speed:
-   *  @param zumo_motors:
+   *  @brief: Sets a new speed for the motors
+   *  @param new_speed: speed to set on the motors, max is 400
+   *  @param zumo_motors: tells which motors has to change their speed
    */
   void SetMotorSpeed(int new_speed, ZumoMotors zumo_motors);
+
   /** 
-   * @brief: 
-   * @param left:
-   * @return:
+   * @brief: starts a turn to left or right, ReachedEncodersRotation has to be called after to check if the turn is completed
+   * @param left: says if it has to turn to the left, if false turns to the right
+   * @param turn_value: amount that the encoder on the turn side has to reach
+   */
+  void InitTurn(bool left, int turn_value);
+  /** 
+   * @brief: check the current rotation of the encoders
+   * @param left: if true checks a rotation to the left, if false checks to the right
+   * @return: true if the encoders has reached the rotation set before with a call to InitTurn
    */
   bool ReachedEncodersRotation(bool left);
   /** 
-   * @brief: 
-   * @return:
+   * @brief: rotates the zumo instantly and waits to be completed
+   * @param left: indicates in which direction is turning
+   * @param degrees: amount of degrees to turn
+   */
+  void RotateWithGyro(bool left, int degrees);
+  
+  /** 
+   * @brief: starts a forward movement, ReachedEncodersPosition has to be called after to check if the move is completed
+   * @param move_value: encoders value to move forward
+   */
+  void InitMove(int move_value);
+  /** 
+   * @brief: check the current position of the encoders
+   * @return: true if the encoders has reached the position set before with a call to InitMove
    */
   bool ReachedEncodersPosition();
+  
   /** 
-   * @brief: Detect if the sensors find any line, if a side is detected it will rotate a bit
+   * @brief: Detect if the sensors find any line, if a side is detected it will rotate a bit to avoid it
    * @param check_only_front: will only check the front sensor
    * @return: true if it hits the front sensor
    */
   bool DetectLines(bool check_only_front = false);
+  
   /// @brief:
   void ScanRoom();
+
+  void ScanRoomLeft();
+  void ScanRoomRight();
+  
   /// @brief: Plays the buzzer and turn on the led for its rescue operation
   void PlayFollowMeGuide();
+  
   /// @brief: Reads the incoming data from the serial
   void ReadSerialData();
 
   // --------------------- Variables ---------------------------
-  /// @brief: 
+  /// @brief: indicates the current state in which zumo is
   ZumoState current_state;
-  /// @brief: 
+  /// @brief: indicates in which scanning room action zumo is
   ZumoScanningAction current_scanning_action;
   /// @brief: 
   int current_left_speed;
@@ -154,21 +180,21 @@ private:
   int desired_left_encoder;
   /// @brief: 
   int desired_right_encoder;
-  /// @brief: 
+  /// @brief: stores the values readen by the line sensors
   uint16_t line_sensors_values[5];
   /// @brief: 
   bool manual_mode;
-  /// @brief
+  /// @brief:
   int found_rooms_count;
-  /// @brief
+  /// @brief:
   int wandering_repetitions;
-  /// @brief
+  /// @brief:
   bool measured_width;
-  /// @brief
+  /// @brief:
   bool length_wandering;
-  /// @brief
+  /// @brief:
   bool left_wandering;
-  /// @brief
+  /// @brief:
   MazeRoom found_rooms[MAX_ROOMS]; // Wish it could be a vector :( (Tried with arv_stl but it didn't compile)
 
 

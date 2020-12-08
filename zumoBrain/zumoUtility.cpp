@@ -3,6 +3,7 @@
 // e-mail: c0022981@my.shu.ac.uk
 
 #include "zumoUtility.h"
+#include "Wire.h"
 
 // ----------------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ ZumoRobot::~ZumoRobot(){
 void ZumoRobot::InitializeZumo(){
 
   // Initialize zumo board at baud rate 9600
-  Serial.begin(9600);
+ // Serial.begin(9600);
   // Initialize XBee connection at baud rate 9600
   Serial1.begin(9600);
 
@@ -136,8 +137,21 @@ void ZumoRobot::InitProximitySensors(){
 // ----------------------------------------------------------------------------
   
 void ZumoRobot::InitGyroscope(){
+
+  // Used InertialSensors example from Zumo32U4 library
+  Wire.begin();
   
-  imu.init();
+  if (!imu.init())
+  {
+    // Failed to detect the compass.
+    ledRed(1);
+    while(1)
+    {
+      Serial.println(F("Failed to initialize IMU sensors."));
+      delay(100);
+    }
+  }
+  
   imu.enableDefault();
   
 }
@@ -171,7 +185,26 @@ void ZumoRobot::SetMotorSpeed(int new_speed, ZumoMotors zumo_motors){
 }
  
 // ----------------------------------------------------------------------------
+
+void ZumoRobot::InitTurn(bool left, int turn_value){
+
+  if(left){
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
+    // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
+    desired_left_encoder = encoders.getCountsLeft() - turn_value;
+  }
+  else{
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
+    // Calculate right encoder expected value for 90 degrees right turn (-700 is about 90 degrees)
+    desired_right_encoder = encoders.getCountsRight() - turn_value;
+  }
+  
+}
  
+// ----------------------------------------------------------------------------
+
 bool ZumoRobot::ReachedEncodersRotation(bool left){
   
   // Using wheel encoders
@@ -190,6 +223,61 @@ bool ZumoRobot::ReachedEncodersRotation(bool left){
   }
 
   return false;
+  
+}
+
+// ----------------------------------------------------------------------------
+
+void ZumoRobot::RotateWithGyro(bool left, int degrees){
+  
+  float gyro_speed = 0.0f; // Calculated gyro speed
+  int desired_rot_time = 0; //ms to stop rotation
+
+  // Init turn
+  if(left){
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
+  }
+  else{
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
+  }
+  
+  // Wait a bit to let the gyro get some values
+  delay(200);
+  imu.readGyro();
+
+  // For some reason my zumo turns faster to the left so it needs an extra check
+  // 114.0f = 10285 / 90 dps (Looked at InertialSensors example to get this value, 10285 gyro value for 90dps)
+  // to the left is 116.1f to reduce a bit the turning time
+
+  // Calculate the gyro speed
+  if(left){
+    gyro_speed = (abs((float)imu.g.z)) / 116.1f; //Turning left
+  }
+  else{
+    gyro_speed = (abs((float)imu.g.z)) / 116.1f; //Turning right
+  }
+
+  // 1000 ms at 90dps for 90 degrees return 1000 ms of rotating time, 
+  // so this formula calculates the rotation time with the given degrees and the current gyro speed
+  desired_rot_time = (int)(1000.0f / (gyro_speed / (float)degrees));
+
+  // Wait the indicated time substracting the initial 200 ms to wait for the gyro to get values
+  delay(desired_rot_time - 200);
+
+  // Stop
+  SetMotorSpeed(0, kZumoMotors_Both);
+  
+}
+
+// ----------------------------------------------------------------------------
+
+void ZumoRobot::InitMove(int move_value){
+
+  SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
+  desired_left_encoder = encoders.getCountsLeft() + move_value;
+  desired_right_encoder = encoders.getCountsRight() + move_value;
   
 }
 
@@ -265,119 +353,84 @@ void ZumoRobot::ScanRoom(){
     }
     case kZumoScanningAction_Entering:{
       if(ReachedEncodersPosition()){
-        if(current_room.is_at_left){
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-          // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_left_encoder = encoders.getCountsLeft() - ZUMO_TURN_90;
-        }
-        else{
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-          // Calculate right encoder expected value for 90 degrees right turn (-700 is about 90 degrees)
-          desired_right_encoder = encoders.getCountsRight() - ZUMO_TURN_90;
-        }
+        //InitTurn(current_room.is_at_left, ZUMO_TURN_90);
+        RotateWithGyro(current_room.is_at_left, 90);
         current_scanning_action = kZumoScanningAction_Positioning;
       }
       break;  
     }
     case kZumoScanningAction_Positioning:{
-      if(current_room.is_at_left){
-        if(ReachedEncodersRotation(true)){
-          SetMotorSpeed(0, kZumoMotors_Both);
-          delay(100);
-          current_left_encoder = encoders.getCountsLeft();
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          current_scanning_action = kZumoScanningAction_MeasuringLength;
-        }
-      }
-      else{
-        if(ReachedEncodersRotation(false)){
-          SetMotorSpeed(0, kZumoMotors_Both);
-          delay(100);
-          current_right_encoder = encoders.getCountsRight();
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          current_scanning_action = kZumoScanningAction_MeasuringLength;
-        }
-      }
+      delay(100);
+      current_left_encoder = encoders.getCountsLeft();
+      current_right_encoder = encoders.getCountsRight();
+      SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
+      current_scanning_action = kZumoScanningAction_MeasuringLength;
       break;  
     }
     case kZumoScanningAction_MeasuringLength:{
       // Store room length when hit a line in the front
-      if(current_room.is_at_left){
-        if(DetectLines(true)){
+      if(DetectLines(true)){
+        if(current_room.is_at_left){
           current_room.room_length = encoders.getCountsLeft() - current_left_encoder;
           // Calculate how many times should wander the room to scan it completely with half zumo size
-          wandering_repetitions = (current_room.room_length / 350) - 1;
+          wandering_repetitions = current_room.room_length / 700;
           // Set zumo to turn right
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
-          // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_right_encoder = encoders.getCountsRight() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningRight;
+          RotateWithGyro(false, 90);
+          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
+          current_scanning_action = kZumoScanningAction_MeasuringWidth;
+          /*InitTurn(false, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }
-      }
-      else{
-        if(DetectLines(true)){
+        else{
           current_room.room_length = encoders.getCountsRight() - current_right_encoder;
           // Calculate how many times should wander the room to scan it completely with half zumo size
-          wandering_repetitions = (current_room.room_length / 350) - 1;
-          // Turn left
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-          // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_left_encoder = encoders.getCountsLeft() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningLeft;
+          wandering_repetitions = current_room.room_length / 700;
+          // Set the zumo to turn left
+          RotateWithGyro(true, 90);
+          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
+          current_scanning_action = kZumoScanningAction_MeasuringWidth;
+          /*InitTurn(true, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
       }
       break;  
     }
     case kZumoScanningAction_MeasuringWidth:{
-      // Store room width when hit a line in the front
-      if(current_room.is_at_left){
-        if(DetectLines(true)){
-          ledYellow(true);
-          measured_width = true;
-          length_wandering = true;
-          // Set zumo to turn right
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
-          // Calculate right encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_right_encoder = encoders.getCountsRight() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningRight;
+      if(DetectLines(true)){
+        ledYellow(true);
+        measured_width = true;
+        length_wandering = true;
+        
+        if(current_room.is_at_left){
+          left_wandering = true;
+          RotateWithGyro(false, 90);
+          InitMove(700);
+          current_scanning_action = kZumoScanningAction_Wandering;
+          /*InitTurn(false, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }
-      }
-      else{
-        if(DetectLines(true)){
-          ledYellow(true);
-          measured_width = true;
-          length_wandering = true;
-          // Set zumo to turn left
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-          // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_left_encoder = encoders.getCountsLeft() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningLeft;
+        else{
+          left_wandering = false;
+          RotateWithGyro(true, 90);
+          InitMove(700);
+          current_scanning_action = kZumoScanningAction_Wandering;
+          /*InitTurn(true, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
       }
       break;  
     }
     case kZumoScanningAction_TurningLeft:{
-      if(ReachedEncodersRotation(true)){
+      /*if(ReachedEncodersRotation(true)){
         if(!measured_width){
           ledYellow(false);
-          // Start measure width 
-          current_left_encoder = encoders.getCountsLeft();
+          // First width movement
           SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
           current_scanning_action = kZumoScanningAction_MeasuringWidth;
         }
-        else{
-          // TODO: Start || continue wandering 
+        else{ 
           if(length_wandering){
-            //ledYellow(true);
-            SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-            desired_left_encoder = encoders.getCountsLeft() + 350;
-            desired_right_encoder = encoders.getCountsRight() + 350;
+            InitMove(350);
             current_scanning_action = kZumoScanningAction_Wandering;
           }
           else{
@@ -385,26 +438,20 @@ void ZumoRobot::ScanRoom(){
             current_scanning_action = kZumoScanningAction_Wandering;
           }
         }
-      }
+      }*/
       break;  
     }
     case kZumoScanningAction_TurningRight:{
-      if(ReachedEncodersRotation(false)){
+      /*if(ReachedEncodersRotation(false)){
         if(!measured_width){
           ledYellow(false);
-          // Start measure width 
-          current_right_encoder = encoders.getCountsRight();
+          // First width movement
           SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
           current_scanning_action = kZumoScanningAction_MeasuringWidth;
         }
         else{
-          // TODO: Start || continue wandering 
-          //, move 350
           if(length_wandering){
-            //ledYellow(true);
-            SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-            desired_left_encoder = encoders.getCountsLeft() + 350;
-            desired_right_encoder = encoders.getCountsRight() + 350;
+            InitMove(350);
             current_scanning_action = kZumoScanningAction_Wandering;
           }
           else{
@@ -412,14 +459,12 @@ void ZumoRobot::ScanRoom(){
             current_scanning_action = kZumoScanningAction_Wandering;
           }
         }
-      }
+      }*/
       break;  
     }
     case kZumoScanningAction_Wandering:{
-      // Displace in zig zag with half zumo size to scan completely with the total repeat number caculated in th previous step
-      // Finish wandering room
+      // Displace in zig zag with half zumo size to scan completely with the total repeat number caculated in the measure length action
       if(length_wandering && ReachedEncodersPosition()){
-        // Turn right
         wandering_repetitions--;
         if(wandering_repetitions <= 0){
           SetMotorSpeed(0, kZumoMotors_Both);
@@ -427,45 +472,37 @@ void ZumoRobot::ScanRoom(){
           break;
         }
         if(!left_wandering){
-          //ledYellow(false);
           length_wandering = false;
-          left_wandering = true;
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
-          // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_right_encoder = encoders.getCountsRight() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningRight;
+          RotateWithGyro(true, 90);
+          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
+          /*InitTurn(true, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
         else{
-          //ledYellow(false);
           length_wandering = false;
-          left_wandering = false;
-          // Turn left else (Maybe wandering left and wandering right states?)
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-          // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_left_encoder = encoders.getCountsLeft() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningLeft;
+          RotateWithGyro(false, 90);
+          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
+          /*InitTurn(false, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }    
       }
       else if(!length_wandering && DetectLines(true)){
         // Turn left
         if(left_wandering){
+          left_wandering = false;
           length_wandering = true;
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-          // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-          desired_left_encoder = encoders.getCountsLeft() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningLeft;
+          RotateWithGyro(true, 90);
+          InitMove(700);
+          /*InitTurn(true, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
         else{
           length_wandering = true;
-          // Turn right else (Maybe wandering left and wandering right states?)
-          SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-          // Calculate right encoder expected value for 90 degrees right turn (-700 is about 90 degrees)
-          desired_right_encoder = encoders.getCountsRight() - ZUMO_TURN_90;
-          current_scanning_action = kZumoScanningAction_TurningRight;
+          left_wandering = true;
+          RotateWithGyro(false, 90);
+          InitMove(700);
+          /*InitTurn(false, ZUMO_TURN_90);
+          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }
       }
       break;  
@@ -482,6 +519,18 @@ void ZumoRobot::ScanRoom(){
     }
   }
     
+}
+ 
+// ----------------------------------------------------------------------------
+
+void ZumoRobot::ScanRoomLeft(){
+  
+}
+ 
+// ----------------------------------------------------------------------------
+
+void ZumoRobot::ScanRoomRight(){
+  
 }
  
 // ----------------------------------------------------------------------------
@@ -565,17 +614,12 @@ void ZumoRobot::ReadSerialData(){
     if(current_state == kZumoState_ScanningRoom){
       // Store that the room is at left
       found_rooms[found_rooms_count - 1].is_at_left = true;
-      // Set zumo to advance a bit and then turn to scan the room
-      SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-      desired_left_encoder = encoders.getCountsLeft() + ZUMO_SIZE_MOVE;
-      desired_right_encoder = encoders.getCountsRight() + ZUMO_SIZE_MOVE;
+      
+      InitMove(ZUMO_SIZE_MOVE);
       current_scanning_action = kZumoScanningAction_Entering;
     }
     else{
-      SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
-      SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
-      // Calculate left encoder expected value for 90 degrees left turn (-700 is about 90 degrees)
-      desired_left_encoder = encoders.getCountsLeft() - ZUMO_TURN_90;
+      InitTurn(true, ZUMO_TURN_90);
       current_state = kZumoState_TurningLeft;
     }
     break;
@@ -588,17 +632,12 @@ void ZumoRobot::ReadSerialData(){
     if(current_state == kZumoState_ScanningRoom){
       // Store that the room is at right
       found_rooms[found_rooms_count - 1].is_at_left = false;
-      // Set zumo to advance a bit and then turn to scan the room
-      SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-      desired_left_encoder = encoders.getCountsLeft() + ZUMO_SIZE_MOVE;
-      desired_right_encoder = encoders.getCountsRight() + ZUMO_SIZE_MOVE;
+      
+      InitMove(ZUMO_SIZE_MOVE);
       current_scanning_action = kZumoScanningAction_Entering;
     }
     else{
-      SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
-      SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
-      // Calculate right encoder expected value for 90 degrees right turn (-700 is about 90 degrees)
-      desired_right_encoder = encoders.getCountsRight() - ZUMO_TURN_90;
+      InitTurn(false, ZUMO_TURN_90);
       current_state = kZumoState_TurningRight;
     }
     break;

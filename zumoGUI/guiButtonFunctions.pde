@@ -138,22 +138,25 @@ void modeToggleButton(){
     mode_label.setText("Manual mode");
     println("Zumo changed to manual mode");
     current_task_label.setText("Current performing: Task 1");
+    zumo_msg_fill_label.setText("");
+    gui_help_fill_label.setText(gui_help_strings[1]);
     zumoGUI.manual_mode = true;
-      zumoGUI.serialPort.write(1);
+    zumoGUI.serialPort.write(1);
     // Enable usable buttons
-    zumoGUI.EnableButton(forward_button, false);
-    zumoGUI.EnableButton(backward_button, false);
-    zumoGUI.EnableButton(left_button, false);
-    zumoGUI.EnableButton(right_button, false);
+    EnableButton(forward_button, false);
+    EnableButton(backward_button, false);
+    EnableButton(left_button, false);
+    EnableButton(right_button, false);
+    DisableButton(room_button, true);
   }
   else{
     mode_label.setText("Autonomous mode");
     println("Zumo changed to autonomous mode");
     zumoGUI.manual_mode = false;
     // Disable not usable buttons
-    zumoGUI.DisableButton(backward_button, false);
-    zumoGUI.DisableButton(left_button, false);
-    zumoGUI.DisableButton(right_button, false);
+    DisableButton(backward_button, false);
+    DisableButton(left_button, false);
+    DisableButton(right_button, false);
   }
 
 }
@@ -167,9 +170,11 @@ void roomButton(){
   
   zumoGUI.serialPort.write(10);
   current_task_label.setText("Current performing: Task 5");
+  zumo_msg_fill_label.setText(zumo_data_strings[1]);
   DisableButton(room_button, true);
   EnableButton(left_button, false);
   EnableButton(right_button, false);
+  zumoGUI.found_rooms++;
   
 }
 

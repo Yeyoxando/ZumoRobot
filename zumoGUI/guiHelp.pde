@@ -12,7 +12,9 @@ static String zumo_data_strings[] = {
 // String 1
 "Detected a wall in front of the robot.\nTurn Left or Right.",
 // String 2
-"Zumo data 2"
+"Zumo is inspecting the room.",
+// String 3
+"Zumo has inspected the room. Information added below."
 };
 
 // ----------------------------------------------------------------------------
@@ -85,7 +87,7 @@ public static void SetButtonsToFireAllEvents(){
 /**
 * @brief: Set buttons that are not neccesary on the initial state of the GUI
 */
-public static void SetInitialButtonScheme(){
+public static void SetInitialButtonsState(){
   
   room_button.setVisible(false);
   

@@ -253,10 +253,10 @@ void ZumoRobot::RotateWithGyro(bool left, int degrees){
 
   // Calculate the gyro speed
   if(left){
-    gyro_speed = (abs((float)imu.g.z)) / 116.1f; //Turning left
+    gyro_speed = (abs((float)imu.g.z)) / 118.5f; //Turning left
   }
   else{
-    gyro_speed = (abs((float)imu.g.z)) / 116.1f; //Turning right
+    gyro_speed = (abs((float)imu.g.z)) / 121.5f; //Turning right
   }
 
   // 1000 ms at 90dps for 90 degrees return 1000 ms of rotating time, 
@@ -353,7 +353,6 @@ void ZumoRobot::ScanRoom(){
     }
     case kZumoScanningAction_Entering:{
       if(ReachedEncodersPosition()){
-        //InitTurn(current_room.is_at_left, ZUMO_TURN_90);
         RotateWithGyro(current_room.is_at_left, 90);
         current_scanning_action = kZumoScanningAction_Positioning;
       }
@@ -370,16 +369,13 @@ void ZumoRobot::ScanRoom(){
     case kZumoScanningAction_MeasuringLength:{
       // Store room length when hit a line in the front
       if(DetectLines(true)){
+        
         if(current_room.is_at_left){
           current_room.room_length = encoders.getCountsLeft() - current_left_encoder;
           // Calculate how many times should wander the room to scan it completely with half zumo size
           wandering_repetitions = current_room.room_length / 700;
           // Set zumo to turn right
           RotateWithGyro(false, 90);
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          current_scanning_action = kZumoScanningAction_MeasuringWidth;
-          /*InitTurn(false, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }
         else{
           current_room.room_length = encoders.getCountsRight() - current_right_encoder;
@@ -387,79 +383,30 @@ void ZumoRobot::ScanRoom(){
           wandering_repetitions = current_room.room_length / 700;
           // Set the zumo to turn left
           RotateWithGyro(true, 90);
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          current_scanning_action = kZumoScanningAction_MeasuringWidth;
-          /*InitTurn(true, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
+        
+        SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
+        current_scanning_action = kZumoScanningAction_MeasuringWidth;
       }
       break;  
     }
     case kZumoScanningAction_MeasuringWidth:{
       if(DetectLines(true)){
-        ledYellow(true);
         measured_width = true;
         length_wandering = true;
         
         if(current_room.is_at_left){
           left_wandering = true;
           RotateWithGyro(false, 90);
-          InitMove(700);
-          current_scanning_action = kZumoScanningAction_Wandering;
-          /*InitTurn(false, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }
         else{
           left_wandering = false;
           RotateWithGyro(true, 90);
-          InitMove(700);
-          current_scanning_action = kZumoScanningAction_Wandering;
-          /*InitTurn(true, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
+        
+        InitMove(700);
+        current_scanning_action = kZumoScanningAction_Wandering;
       }
-      break;  
-    }
-    case kZumoScanningAction_TurningLeft:{
-      /*if(ReachedEncodersRotation(true)){
-        if(!measured_width){
-          ledYellow(false);
-          // First width movement
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          current_scanning_action = kZumoScanningAction_MeasuringWidth;
-        }
-        else{ 
-          if(length_wandering){
-            InitMove(350);
-            current_scanning_action = kZumoScanningAction_Wandering;
-          }
-          else{
-            SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-            current_scanning_action = kZumoScanningAction_Wandering;
-          }
-        }
-      }*/
-      break;  
-    }
-    case kZumoScanningAction_TurningRight:{
-      /*if(ReachedEncodersRotation(false)){
-        if(!measured_width){
-          ledYellow(false);
-          // First width movement
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          current_scanning_action = kZumoScanningAction_MeasuringWidth;
-        }
-        else{
-          if(length_wandering){
-            InitMove(350);
-            current_scanning_action = kZumoScanningAction_Wandering;
-          }
-          else{
-            SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-            current_scanning_action = kZumoScanningAction_Wandering;
-          }
-        }
-      }*/
       break;  
     }
     case kZumoScanningAction_Wandering:{
@@ -467,51 +414,62 @@ void ZumoRobot::ScanRoom(){
       if(length_wandering && ReachedEncodersPosition()){
         wandering_repetitions--;
         if(wandering_repetitions <= 0){
-          SetMotorSpeed(0, kZumoMotors_Both);
+          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
           current_scanning_action = kZumoScanningAction_Returning;
           break;
         }
+        
         if(!left_wandering){
-          length_wandering = false;
           RotateWithGyro(true, 90);
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          /*InitTurn(true, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
         else{
-          length_wandering = false;
           RotateWithGyro(false, 90);
-          SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
-          /*InitTurn(false, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }    
+        
+        length_wandering = false;
+        SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Both);
       }
       else if(!length_wandering && DetectLines(true)){
         // Turn left
+        length_wandering = true;
+        
         if(left_wandering){
           left_wandering = false;
-          length_wandering = true;
           RotateWithGyro(true, 90);
-          InitMove(700);
-          /*InitTurn(true, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningLeft;*/
         }
         else{
-          length_wandering = true;
           left_wandering = true;
           RotateWithGyro(false, 90);
-          InitMove(700);
-          /*InitTurn(false, ZUMO_TURN_90);
-          current_scanning_action = kZumoScanningAction_TurningRight;*/
         }
+
+        InitMove(700);
       }
       break;  
     }
     case kZumoScanningAction_Returning:{
       // Return to corridor
-      measured_width = false;
-      length_wandering = false;
-      left_wandering = false;
+      if(DetectLines(true)){
+        measured_width = false;
+        length_wandering = false;
+        left_wandering = false;
+        if(current_room.is_at_left){
+          RotateWithGyro(true, 90);
+        }
+        else{
+          RotateWithGyro(false, 90);
+        }
+        
+        // Send to serial 1 if there are people or not
+        if(current_room.has_people){
+          Serial1.write((int)kGUIData_ObjectInRoom);
+        }
+        else{
+          Serial1.write((int)kGUIData_EmptyRoom);
+        }
+        
+        current_scanning_action = kZumoScanningAction_None;
+        current_state = kZumoState_Stopped;
+      }
       break;  
     }
     default:{
@@ -519,18 +477,6 @@ void ZumoRobot::ScanRoom(){
     }
   }
     
-}
- 
-// ----------------------------------------------------------------------------
-
-void ZumoRobot::ScanRoomLeft(){
-  
-}
- 
-// ----------------------------------------------------------------------------
-
-void ZumoRobot::ScanRoomRight(){
-  
 }
  
 // ----------------------------------------------------------------------------
@@ -576,23 +522,23 @@ void ZumoRobot::ReadSerialData(){
   case kZumoData_ManualTurnLeft:{
     ledRed(0);
     manual_mode = true;
-    
-    SetMotorSpeed(ZUMO_SPEED / 2, kZumoMotors_Right);
-    SetMotorSpeed(-ZUMO_SPEED / 2, kZumoMotors_Left);
+
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Left);
     current_state = kZumoState_TurningLeft;
     break;
   }
   case kZumoData_ManualTurnRight:{
     ledRed(0);
     manual_mode = true;
-    
-    SetMotorSpeed(-ZUMO_SPEED / 2, kZumoMotors_Right);
-    SetMotorSpeed(ZUMO_SPEED / 2, kZumoMotors_Left);
+
+    SetMotorSpeed(-ZUMO_SPEED, kZumoMotors_Right);
+    SetMotorSpeed(ZUMO_SPEED, kZumoMotors_Left);
     current_state = kZumoState_TurningRight;
     break;
   }
   case kZumoData_SwitchManualMode:{
-    // Turn on or off the led red, if it is on is on autonomous
+    // Turn on or off the led red, on if it is on autonomous mode
     ledRed(manual_mode);
     manual_mode = !manual_mode;
     break;
@@ -649,6 +595,7 @@ void ZumoRobot::ReadSerialData(){
 
     // Set new state and stop zumo
     SetMotorSpeed(0, kZumoMotors_Both);
+    InitGyroscope();
     if(found_rooms_count < MAX_ROOMS){
       // Add a new room to the array, set only the number, rest of the data will be filled while scanning the room
       MazeRoom new_room;

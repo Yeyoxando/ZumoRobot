@@ -18,7 +18,7 @@
 /// @brief: indicates how much the encoders should advance to perform a 90 degree turn
 #define ZUMO_TURN_90 700
 /// @brief: indicates how much the encoders should advance to displace an amount equal to the zumo size
-#define ZUMO_SIZE_MOVE 900
+#define ZUMO_SIZE_MOVE 800
 /// @brief: max number that zumo can visit (Instead of a vector or a collection structure to initialize an array)
 #define MAX_ROOMS 5
 
@@ -71,10 +71,8 @@ enum ZumoScanningAction{
   kZumoScanningAction_Positioning = 2,
   kZumoScanningAction_MeasuringLength = 3,
   kZumoScanningAction_MeasuringWidth = 4,
-  kZumoScanningAction_TurningLeft = 5,
-  kZumoScanningAction_TurningRight = 6,
-  kZumoScanningAction_Wandering = 7,
-  kZumoScanningAction_Returning = 8,
+  kZumoScanningAction_Wandering = 5,
+  kZumoScanningAction_Returning = 6
 };
 
 /// @brief: structure to save visited rooms data
@@ -153,9 +151,6 @@ private:
   
   /// @brief:
   void ScanRoom();
-
-  void ScanRoomLeft();
-  void ScanRoomRight();
   
   /// @brief: Plays the buzzer and turn on the led for its rescue operation
   void PlayFollowMeGuide();

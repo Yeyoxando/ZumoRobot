@@ -16,25 +16,28 @@ public static Serial serialPort;
 
 // Zumo
 public static boolean manual_mode = true;
+public static int found_rooms = 0;
+public static String found_rooms_info = "";
 
 // ----------------------------------------------------------------------------
 
 // --------------------------- JAVA FUNCTIONS ---------------------------------
 
 public void setup(){
+  
   // Java window
   size(480, 480, JAVA2D);
   
   // G4P GUI
   createGUI();
   customGUI();
+  
   // GUI initial settings
-  SetInitialButtonScheme();
+  SetInitialButtonsState();
   SetButtonsToFireAllEvents();
   gui_help_fill_label.setText(gui_help_strings[1]);
   
-  // Serial connection
-  // Serial is on my COM4 port
+  // Serial connection (Serial is on my COM4 port)
   String portName = "COM4";
   serialPort = new Serial(this, portName, 9600);
   
@@ -70,6 +73,14 @@ void serialEvent(Serial serialPort){
       GUI_FinishedAutoRotation();
       break;
     }
+    case 103:{
+      GUI_EmptyRoom();
+      break;
+    }
+    case 104:{
+      GUI_ObjectInRoom();
+      break;
+    }
     default:{
       println("\n Unknown data: " + value);
       break;
@@ -95,22 +106,14 @@ public void customGUI(){
 /**
 * @brief:
 */
-public static void GUI_ReachedFrontWall(){
+void GUI_ReachedFrontWall(){
   
-  //serialPort.write(6);
-  //mode_toggle.setState(0);
-  //mode_label.setText("Manual mode");
-  //println("Zumo changed to manual mode");
-  //manual_mode = true;
-  // Enable usable buttons
-  //EnableButton(backward_button);
   EnableButton(left_button, false);
   EnableButton(right_button, false);
   
   current_task_label.setText("Currently performing: Task 3 & 4");
   zumo_msg_fill_label.setText(zumo_data_strings[0]);
   gui_help_fill_label.setText(gui_help_strings[2]);
-  //completed_button.setVisible(true);
   
 }
 
@@ -119,7 +122,7 @@ public static void GUI_ReachedFrontWall(){
 /**
 * @brief:
 */
-public static void GUI_FinishedAutoRotation(){
+void GUI_FinishedAutoRotation(){
   
   zumo_msg_fill_label.setText("");
   gui_help_fill_label.setText("");
@@ -128,6 +131,34 @@ public static void GUI_FinishedAutoRotation(){
   
   zumoGUI.serialPort.write(7);
   current_task_label.setText("Current performing: Task 2");
+  
+}
+
+// ----------------------------------------------------------------------------
+
+/**
+* @brief:
+*/
+void GUI_EmptyRoom(){
+  
+  zumo_msg_fill_label.setText(zumo_data_strings[2]);
+  gui_help_fill_label.setText("");
+  found_rooms_info += ("Room #" + found_rooms + ": No objects found.\n");
+  found_rooms_fill_label.setText(found_rooms_info);
+  
+}
+
+// ----------------------------------------------------------------------------
+
+/**
+* @brief:
+*/
+void GUI_ObjectInRoom(){
+  
+  zumo_msg_fill_label.setText(zumo_data_strings[2]);
+  gui_help_fill_label.setText("");
+  found_rooms_info += ("Room #" + found_rooms + ": People has been found.\n");
+  found_rooms_fill_label.setText(found_rooms_info);
   
 }
 

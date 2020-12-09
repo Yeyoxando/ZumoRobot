@@ -102,8 +102,15 @@ public void createGUI(){
   gui_help_fill_label.setOpaque(true);
   room_button = new GButton(this, 300, 150, 80, 30);
   room_button.setText("Room!");
-  room_button.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+  room_button.setLocalColorScheme(GCScheme.YELLOW_SCHEME);
   room_button.addEventHandler(this, "roomButtonClick");
+  found_rooms_label = new GLabel(this, 6, 350, 80, 20);
+  found_rooms_label.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  found_rooms_label.setText("Found rooms");
+  found_rooms_label.setOpaque(false);
+  found_rooms_fill_label = new GLabel(this, 6, 372, 468, 100);
+  found_rooms_fill_label.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  found_rooms_fill_label.setOpaque(true);
 }
 
 // Variable declarations 
@@ -120,3 +127,5 @@ static GLabel gui_help_label;
 static GLabel zumo_msg_fill_label; 
 static GLabel gui_help_fill_label; 
 static GButton room_button; 
+static GLabel found_rooms_label; 
+static GLabel found_rooms_fill_label; 

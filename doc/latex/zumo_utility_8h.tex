@@ -1,0 +1,314 @@
+\hypertarget{zumo_utility_8h}{}\doxysection{D\+:/\+S\+H\+U/\+P\+T/\+Zumo\+Robot/zumo\+Brain/zumo\+Utility.h File Reference}
+\label{zumo_utility_8h}\index{D:/SHU/PT/ZumoRobot/zumoBrain/zumoUtility.h@{D:/SHU/PT/ZumoRobot/zumoBrain/zumoUtility.h}}
+{\ttfamily \#include $<$Zumo32\+U4.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_maze_room}{Maze\+Room}}
+\begin{DoxyCompactList}\small\item\em structure to save visited rooms data \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_zumo_robot}{Zumo\+Robot}}
+\begin{DoxyCompactList}\small\item\em Implements all the neccesary actions for a \mbox{\hyperlink{class_zumo_robot}{Zumo\+Robot}} to simulate a search and rescue operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{zumo_utility_8h_af651c6e598e45df0b054f5e71693e89c}{Z\+U\+M\+O\+\_\+\+S\+P\+E\+ED}}~200
+\begin{DoxyCompactList}\small\item\em Default zumo speed. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{zumo_utility_8h_a8b91f6398ca0b70728d2a60eed2921b6}{Z\+U\+M\+O\+\_\+\+T\+U\+R\+N\+\_\+90}}~700
+\begin{DoxyCompactList}\small\item\em indicates how much the encoders should advance to perform a 90 degree turn \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{zumo_utility_8h_a7e0a8e7335a14b203f56c5b855b0df84}{Z\+U\+M\+O\+\_\+\+S\+I\+Z\+E\+\_\+\+M\+O\+VE}}~800
+\begin{DoxyCompactList}\small\item\em indicates how much the encoders should advance to displace an amount equal to the zumo size \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{zumo_utility_8h_a251d94cd24a2ca3369fc3f8eca8c19ae}{M\+A\+X\+\_\+\+R\+O\+O\+MS}}~5
+\begin{DoxyCompactList}\small\item\em max number that zumo can visit (Instead of a vector or a collection structure to initialize an array) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270}{Zumo\+State}} \{ \newline
+\mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270aeb848706c3bdc1cb293cb81b1e0e89ef}{k\+Zumo\+State\+\_\+\+Stopped}} = 0, 
+\mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ae816276ba37ef857d444d084a0a3dc81}{k\+Zumo\+State\+\_\+\+Forwarding}} = 1, 
+\mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270a1e9cc7a626f328bf00fd42ea3ec58011}{k\+Zumo\+State\+\_\+\+Backwarding}} = 2, 
+\mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270aca1daa90a351e8d144c1529b69b8b6d0}{k\+Zumo\+State\+\_\+\+Turning\+Left}} = 3, 
+\newline
+\mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ad70afbefbc3d6da10993bf2e8182f923}{k\+Zumo\+State\+\_\+\+Turning\+Right}} = 4, 
+\mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ac6a63a0aaf2448a5b297a22645538d42}{k\+Zumo\+State\+\_\+\+Scanning\+Room}} = 5, 
+\mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270a2edc063a179cd526c9e5486d15a6de88}{k\+Zumo\+State\+\_\+\+Returning}} = 6
+ \}
+\begin{DoxyCompactList}\small\item\em Enumerator to indicate current zumo state. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207}{Zumo\+Data}} \{ \newline
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ae11b895ced9ef7137d5599202bf85bad}{k\+Zumo\+Data\+\_\+\+No\+Data\+Received}} = 0, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a7925d9264e2d99c3d86b19cb1d59722b}{k\+Zumo\+Data\+\_\+\+Stop}} = 1, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a2f78f5b77e5c61b37dffe0fd154bae1e}{k\+Zumo\+Data\+\_\+\+Manual\+Forward}} = 2, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207af4b058ff7ed9df22652465b36d721e7f}{k\+Zumo\+Data\+\_\+\+Manual\+Backward}} = 3, 
+\newline
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ae7278ba964ccd20bb65ebe2124eb5bee}{k\+Zumo\+Data\+\_\+\+Manual\+Turn\+Left}} = 4, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ad35471ded37646e7f3920312e7867f9e}{k\+Zumo\+Data\+\_\+\+Manual\+Turn\+Right}} = 5, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207afa67e86b2860ce321db1d947896c9352}{k\+Zumo\+Data\+\_\+\+Switch\+Manual\+Mode}} = 6, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a973459a3b5a42686d05f7629d21d7c9d}{k\+Zumo\+Data\+\_\+\+Autonomous\+Forward}} = 7, 
+\newline
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a88783a03838cfd055a1f26a622bbdffa}{k\+Zumo\+Data\+\_\+\+Autonomous\+Turn\+Left}} = 8, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207af2a716dd23c12a6646e9dc679a5e919e}{k\+Zumo\+Data\+\_\+\+Autonomous\+Turn\+Right}} = 9, 
+\mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a50d25c1fa4c8332a66cdee44d24b95a3}{k\+Zumo\+Data\+\_\+\+Found\+Room}} = 10
+ \}
+\begin{DoxyCompactList}\small\item\em Indicates all the data that could be received from the G\+UI to convert it to Zumo actions. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702}{G\+U\+I\+Data}} \{ \newline
+\mbox{\hyperlink{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702a683e571e05c62dfc730a9df21d580ba5}{k\+G\+U\+I\+Data\+\_\+\+Switch\+Manual\+Mode}} = 100, 
+\mbox{\hyperlink{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702ab1550312ca335a9cce71dd182a572cbe}{k\+G\+U\+I\+Data\+\_\+\+Reached\+Front\+Wall}} = 101, 
+\mbox{\hyperlink{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702a18ca9fe05334977d086466ff9f0e5862}{k\+G\+U\+I\+Data\+\_\+\+Finished\+Auto\+Rotation}} = 102, 
+\mbox{\hyperlink{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702ae65b5ff4843e383ae3ee43c796ada515}{k\+G\+U\+I\+Data\+\_\+\+Empty\+Room}} = 103, 
+\newline
+\mbox{\hyperlink{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702aa5e370a69d7ff5ee575863107a28bf92}{k\+G\+U\+I\+Data\+\_\+\+Object\+In\+Room}} = 104
+ \}
+\begin{DoxyCompactList}\small\item\em Indicates all the data that could be send from the Zumo to the G\+UI. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8}{Zumo\+Motors}} \{ \mbox{\hyperlink{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8ae405383b7a3517887e3780ec05df0be0}{k\+Zumo\+Motors\+\_\+\+Both}} = 0, 
+\mbox{\hyperlink{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8ad57ec3185de6bdf100d718d7838c6293}{k\+Zumo\+Motors\+\_\+\+Right}} = 1, 
+\mbox{\hyperlink{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8a73be5427f9399ad68b14c0df427822ee}{k\+Zumo\+Motors\+\_\+\+Left}} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Enumerator to indicate zumo motors. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83}{Zumo\+Scanning\+Action}} \{ \newline
+\mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ad8915d9108cb2c48d4ea0b63568cd31f}{k\+Zumo\+Scanning\+Action\+\_\+\+None}} = 0, 
+\mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a2c2dd25883a07766937c638f0011def5}{k\+Zumo\+Scanning\+Action\+\_\+\+Entering}} = 1, 
+\mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a02c2b91c66e02d6d3b6a7366beddafbd}{k\+Zumo\+Scanning\+Action\+\_\+\+Positioning}} = 2, 
+\mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ab62c50796c038e7a0ca6d5c826604351}{k\+Zumo\+Scanning\+Action\+\_\+\+Measuring\+Length}} = 3, 
+\newline
+\mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ab7e6ee2814c0307ee8002761eb17eac9}{k\+Zumo\+Scanning\+Action\+\_\+\+Measuring\+Width}} = 4, 
+\mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a5db0a53ebb20633619142a24a2902ea1}{k\+Zumo\+Scanning\+Action\+\_\+\+Wandering}} = 5, 
+\mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a04091e8b307d06d913fece4f8d198e0d}{k\+Zumo\+Scanning\+Action\+\_\+\+Returning}} = 6
+ \}
+\begin{DoxyCompactList}\small\item\em All the different actions that zumo performs to scan a room. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{zumo_utility_8h_a251d94cd24a2ca3369fc3f8eca8c19ae}\label{zumo_utility_8h_a251d94cd24a2ca3369fc3f8eca8c19ae}} 
+\index{zumoUtility.h@{zumoUtility.h}!MAX\_ROOMS@{MAX\_ROOMS}}
+\index{MAX\_ROOMS@{MAX\_ROOMS}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_ROOMS}{MAX\_ROOMS}}
+{\footnotesize\ttfamily \#define M\+A\+X\+\_\+\+R\+O\+O\+MS~5}
+
+
+
+max number that zumo can visit (Instead of a vector or a collection structure to initialize an array) 
+
+\mbox{\Hypertarget{zumo_utility_8h_a7e0a8e7335a14b203f56c5b855b0df84}\label{zumo_utility_8h_a7e0a8e7335a14b203f56c5b855b0df84}} 
+\index{zumoUtility.h@{zumoUtility.h}!ZUMO\_SIZE\_MOVE@{ZUMO\_SIZE\_MOVE}}
+\index{ZUMO\_SIZE\_MOVE@{ZUMO\_SIZE\_MOVE}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{ZUMO\_SIZE\_MOVE}{ZUMO\_SIZE\_MOVE}}
+{\footnotesize\ttfamily \#define Z\+U\+M\+O\+\_\+\+S\+I\+Z\+E\+\_\+\+M\+O\+VE~800}
+
+
+
+indicates how much the encoders should advance to displace an amount equal to the zumo size 
+
+\mbox{\Hypertarget{zumo_utility_8h_af651c6e598e45df0b054f5e71693e89c}\label{zumo_utility_8h_af651c6e598e45df0b054f5e71693e89c}} 
+\index{zumoUtility.h@{zumoUtility.h}!ZUMO\_SPEED@{ZUMO\_SPEED}}
+\index{ZUMO\_SPEED@{ZUMO\_SPEED}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{ZUMO\_SPEED}{ZUMO\_SPEED}}
+{\footnotesize\ttfamily \#define Z\+U\+M\+O\+\_\+\+S\+P\+E\+ED~200}
+
+
+
+Default zumo speed. 
+
+\mbox{\Hypertarget{zumo_utility_8h_a8b91f6398ca0b70728d2a60eed2921b6}\label{zumo_utility_8h_a8b91f6398ca0b70728d2a60eed2921b6}} 
+\index{zumoUtility.h@{zumoUtility.h}!ZUMO\_TURN\_90@{ZUMO\_TURN\_90}}
+\index{ZUMO\_TURN\_90@{ZUMO\_TURN\_90}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{ZUMO\_TURN\_90}{ZUMO\_TURN\_90}}
+{\footnotesize\ttfamily \#define Z\+U\+M\+O\+\_\+\+T\+U\+R\+N\+\_\+90~700}
+
+
+
+indicates how much the encoders should advance to perform a 90 degree turn 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702}\label{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702}} 
+\index{zumoUtility.h@{zumoUtility.h}!GUIData@{GUIData}}
+\index{GUIData@{GUIData}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{GUIData}{GUIData}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702}{G\+U\+I\+Data}}}
+
+
+
+Indicates all the data that could be send from the Zumo to the G\+UI. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kGUIData\_SwitchManualMode@{kGUIData\_SwitchManualMode}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kGUIData\_SwitchManualMode@{kGUIData\_SwitchManualMode}}}\mbox{\Hypertarget{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702a683e571e05c62dfc730a9df21d580ba5}\label{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702a683e571e05c62dfc730a9df21d580ba5}} 
+k\+G\+U\+I\+Data\+\_\+\+Switch\+Manual\+Mode&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kGUIData\_ReachedFrontWall@{kGUIData\_ReachedFrontWall}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kGUIData\_ReachedFrontWall@{kGUIData\_ReachedFrontWall}}}\mbox{\Hypertarget{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702ab1550312ca335a9cce71dd182a572cbe}\label{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702ab1550312ca335a9cce71dd182a572cbe}} 
+k\+G\+U\+I\+Data\+\_\+\+Reached\+Front\+Wall&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kGUIData\_FinishedAutoRotation@{kGUIData\_FinishedAutoRotation}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kGUIData\_FinishedAutoRotation@{kGUIData\_FinishedAutoRotation}}}\mbox{\Hypertarget{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702a18ca9fe05334977d086466ff9f0e5862}\label{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702a18ca9fe05334977d086466ff9f0e5862}} 
+k\+G\+U\+I\+Data\+\_\+\+Finished\+Auto\+Rotation&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kGUIData\_EmptyRoom@{kGUIData\_EmptyRoom}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kGUIData\_EmptyRoom@{kGUIData\_EmptyRoom}}}\mbox{\Hypertarget{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702ae65b5ff4843e383ae3ee43c796ada515}\label{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702ae65b5ff4843e383ae3ee43c796ada515}} 
+k\+G\+U\+I\+Data\+\_\+\+Empty\+Room&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kGUIData\_ObjectInRoom@{kGUIData\_ObjectInRoom}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kGUIData\_ObjectInRoom@{kGUIData\_ObjectInRoom}}}\mbox{\Hypertarget{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702aa5e370a69d7ff5ee575863107a28bf92}\label{zumo_utility_8h_a31657b4b4693ba498f681b57d82d4702aa5e370a69d7ff5ee575863107a28bf92}} 
+k\+G\+U\+I\+Data\+\_\+\+Object\+In\+Room&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207}} 
+\index{zumoUtility.h@{zumoUtility.h}!ZumoData@{ZumoData}}
+\index{ZumoData@{ZumoData}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{ZumoData}{ZumoData}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207}{Zumo\+Data}}}
+
+
+
+Indicates all the data that could be received from the G\+UI to convert it to Zumo actions. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_NoDataReceived@{kZumoData\_NoDataReceived}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_NoDataReceived@{kZumoData\_NoDataReceived}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ae11b895ced9ef7137d5599202bf85bad}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ae11b895ced9ef7137d5599202bf85bad}} 
+k\+Zumo\+Data\+\_\+\+No\+Data\+Received&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_Stop@{kZumoData\_Stop}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_Stop@{kZumoData\_Stop}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a7925d9264e2d99c3d86b19cb1d59722b}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a7925d9264e2d99c3d86b19cb1d59722b}} 
+k\+Zumo\+Data\+\_\+\+Stop&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_ManualForward@{kZumoData\_ManualForward}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_ManualForward@{kZumoData\_ManualForward}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a2f78f5b77e5c61b37dffe0fd154bae1e}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a2f78f5b77e5c61b37dffe0fd154bae1e}} 
+k\+Zumo\+Data\+\_\+\+Manual\+Forward&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_ManualBackward@{kZumoData\_ManualBackward}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_ManualBackward@{kZumoData\_ManualBackward}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207af4b058ff7ed9df22652465b36d721e7f}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207af4b058ff7ed9df22652465b36d721e7f}} 
+k\+Zumo\+Data\+\_\+\+Manual\+Backward&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_ManualTurnLeft@{kZumoData\_ManualTurnLeft}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_ManualTurnLeft@{kZumoData\_ManualTurnLeft}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ae7278ba964ccd20bb65ebe2124eb5bee}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ae7278ba964ccd20bb65ebe2124eb5bee}} 
+k\+Zumo\+Data\+\_\+\+Manual\+Turn\+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_ManualTurnRight@{kZumoData\_ManualTurnRight}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_ManualTurnRight@{kZumoData\_ManualTurnRight}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ad35471ded37646e7f3920312e7867f9e}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207ad35471ded37646e7f3920312e7867f9e}} 
+k\+Zumo\+Data\+\_\+\+Manual\+Turn\+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_SwitchManualMode@{kZumoData\_SwitchManualMode}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_SwitchManualMode@{kZumoData\_SwitchManualMode}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207afa67e86b2860ce321db1d947896c9352}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207afa67e86b2860ce321db1d947896c9352}} 
+k\+Zumo\+Data\+\_\+\+Switch\+Manual\+Mode&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_AutonomousForward@{kZumoData\_AutonomousForward}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_AutonomousForward@{kZumoData\_AutonomousForward}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a973459a3b5a42686d05f7629d21d7c9d}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a973459a3b5a42686d05f7629d21d7c9d}} 
+k\+Zumo\+Data\+\_\+\+Autonomous\+Forward&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_AutonomousTurnLeft@{kZumoData\_AutonomousTurnLeft}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_AutonomousTurnLeft@{kZumoData\_AutonomousTurnLeft}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a88783a03838cfd055a1f26a622bbdffa}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a88783a03838cfd055a1f26a622bbdffa}} 
+k\+Zumo\+Data\+\_\+\+Autonomous\+Turn\+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_AutonomousTurnRight@{kZumoData\_AutonomousTurnRight}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_AutonomousTurnRight@{kZumoData\_AutonomousTurnRight}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207af2a716dd23c12a6646e9dc679a5e919e}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207af2a716dd23c12a6646e9dc679a5e919e}} 
+k\+Zumo\+Data\+\_\+\+Autonomous\+Turn\+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoData\_FoundRoom@{kZumoData\_FoundRoom}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoData\_FoundRoom@{kZumoData\_FoundRoom}}}\mbox{\Hypertarget{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a50d25c1fa4c8332a66cdee44d24b95a3}\label{zumo_utility_8h_a2b4260194d86ac0ac5aaf3d7f71fe207a50d25c1fa4c8332a66cdee44d24b95a3}} 
+k\+Zumo\+Data\+\_\+\+Found\+Room&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8}\label{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8}} 
+\index{zumoUtility.h@{zumoUtility.h}!ZumoMotors@{ZumoMotors}}
+\index{ZumoMotors@{ZumoMotors}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{ZumoMotors}{ZumoMotors}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8}{Zumo\+Motors}}}
+
+
+
+Enumerator to indicate zumo motors. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoMotors\_Both@{kZumoMotors\_Both}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoMotors\_Both@{kZumoMotors\_Both}}}\mbox{\Hypertarget{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8ae405383b7a3517887e3780ec05df0be0}\label{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8ae405383b7a3517887e3780ec05df0be0}} 
+k\+Zumo\+Motors\+\_\+\+Both&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoMotors\_Right@{kZumoMotors\_Right}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoMotors\_Right@{kZumoMotors\_Right}}}\mbox{\Hypertarget{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8ad57ec3185de6bdf100d718d7838c6293}\label{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8ad57ec3185de6bdf100d718d7838c6293}} 
+k\+Zumo\+Motors\+\_\+\+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoMotors\_Left@{kZumoMotors\_Left}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoMotors\_Left@{kZumoMotors\_Left}}}\mbox{\Hypertarget{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8a73be5427f9399ad68b14c0df427822ee}\label{zumo_utility_8h_a19db6daeabe1d94f552a98894eed45b8a73be5427f9399ad68b14c0df427822ee}} 
+k\+Zumo\+Motors\+\_\+\+Left&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83}} 
+\index{zumoUtility.h@{zumoUtility.h}!ZumoScanningAction@{ZumoScanningAction}}
+\index{ZumoScanningAction@{ZumoScanningAction}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{ZumoScanningAction}{ZumoScanningAction}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83}{Zumo\+Scanning\+Action}}}
+
+
+
+All the different actions that zumo performs to scan a room. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoScanningAction\_None@{kZumoScanningAction\_None}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoScanningAction\_None@{kZumoScanningAction\_None}}}\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ad8915d9108cb2c48d4ea0b63568cd31f}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ad8915d9108cb2c48d4ea0b63568cd31f}} 
+k\+Zumo\+Scanning\+Action\+\_\+\+None&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoScanningAction\_Entering@{kZumoScanningAction\_Entering}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoScanningAction\_Entering@{kZumoScanningAction\_Entering}}}\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a2c2dd25883a07766937c638f0011def5}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a2c2dd25883a07766937c638f0011def5}} 
+k\+Zumo\+Scanning\+Action\+\_\+\+Entering&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoScanningAction\_Positioning@{kZumoScanningAction\_Positioning}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoScanningAction\_Positioning@{kZumoScanningAction\_Positioning}}}\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a02c2b91c66e02d6d3b6a7366beddafbd}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a02c2b91c66e02d6d3b6a7366beddafbd}} 
+k\+Zumo\+Scanning\+Action\+\_\+\+Positioning&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoScanningAction\_MeasuringLength@{kZumoScanningAction\_MeasuringLength}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoScanningAction\_MeasuringLength@{kZumoScanningAction\_MeasuringLength}}}\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ab62c50796c038e7a0ca6d5c826604351}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ab62c50796c038e7a0ca6d5c826604351}} 
+k\+Zumo\+Scanning\+Action\+\_\+\+Measuring\+Length&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoScanningAction\_MeasuringWidth@{kZumoScanningAction\_MeasuringWidth}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoScanningAction\_MeasuringWidth@{kZumoScanningAction\_MeasuringWidth}}}\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ab7e6ee2814c0307ee8002761eb17eac9}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83ab7e6ee2814c0307ee8002761eb17eac9}} 
+k\+Zumo\+Scanning\+Action\+\_\+\+Measuring\+Width&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoScanningAction\_Wandering@{kZumoScanningAction\_Wandering}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoScanningAction\_Wandering@{kZumoScanningAction\_Wandering}}}\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a5db0a53ebb20633619142a24a2902ea1}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a5db0a53ebb20633619142a24a2902ea1}} 
+k\+Zumo\+Scanning\+Action\+\_\+\+Wandering&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoScanningAction\_Returning@{kZumoScanningAction\_Returning}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoScanningAction\_Returning@{kZumoScanningAction\_Returning}}}\mbox{\Hypertarget{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a04091e8b307d06d913fece4f8d198e0d}\label{zumo_utility_8h_a85bbe084c21dcd60580fce80302d0c83a04091e8b307d06d913fece4f8d198e0d}} 
+k\+Zumo\+Scanning\+Action\+\_\+\+Returning&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270}} 
+\index{zumoUtility.h@{zumoUtility.h}!ZumoState@{ZumoState}}
+\index{ZumoState@{ZumoState}!zumoUtility.h@{zumoUtility.h}}
+\doxysubsubsection{\texorpdfstring{ZumoState}{ZumoState}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270}{Zumo\+State}}}
+
+
+
+Enumerator to indicate current zumo state. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoState\_Stopped@{kZumoState\_Stopped}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoState\_Stopped@{kZumoState\_Stopped}}}\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270aeb848706c3bdc1cb293cb81b1e0e89ef}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270aeb848706c3bdc1cb293cb81b1e0e89ef}} 
+k\+Zumo\+State\+\_\+\+Stopped&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoState\_Forwarding@{kZumoState\_Forwarding}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoState\_Forwarding@{kZumoState\_Forwarding}}}\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ae816276ba37ef857d444d084a0a3dc81}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ae816276ba37ef857d444d084a0a3dc81}} 
+k\+Zumo\+State\+\_\+\+Forwarding&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoState\_Backwarding@{kZumoState\_Backwarding}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoState\_Backwarding@{kZumoState\_Backwarding}}}\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270a1e9cc7a626f328bf00fd42ea3ec58011}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270a1e9cc7a626f328bf00fd42ea3ec58011}} 
+k\+Zumo\+State\+\_\+\+Backwarding&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoState\_TurningLeft@{kZumoState\_TurningLeft}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoState\_TurningLeft@{kZumoState\_TurningLeft}}}\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270aca1daa90a351e8d144c1529b69b8b6d0}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270aca1daa90a351e8d144c1529b69b8b6d0}} 
+k\+Zumo\+State\+\_\+\+Turning\+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoState\_TurningRight@{kZumoState\_TurningRight}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoState\_TurningRight@{kZumoState\_TurningRight}}}\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ad70afbefbc3d6da10993bf2e8182f923}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ad70afbefbc3d6da10993bf2e8182f923}} 
+k\+Zumo\+State\+\_\+\+Turning\+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoState\_ScanningRoom@{kZumoState\_ScanningRoom}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoState\_ScanningRoom@{kZumoState\_ScanningRoom}}}\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ac6a63a0aaf2448a5b297a22645538d42}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270ac6a63a0aaf2448a5b297a22645538d42}} 
+k\+Zumo\+State\+\_\+\+Scanning\+Room&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kZumoState\_Returning@{kZumoState\_Returning}!zumoUtility.h@{zumoUtility.h}}\index{zumoUtility.h@{zumoUtility.h}!kZumoState\_Returning@{kZumoState\_Returning}}}\mbox{\Hypertarget{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270a2edc063a179cd526c9e5486d15a6de88}\label{zumo_utility_8h_acf0e6c4b8f68036dd10a21eb9132b270a2edc063a179cd526c9e5486d15a6de88}} 
+k\+Zumo\+State\+\_\+\+Returning&\\
+\hline
+
+\end{DoxyEnumFields}

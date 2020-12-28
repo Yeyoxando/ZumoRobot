@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['initgyroscope_97',['InitGyroscope',['../class_zumo_robot.html#a66663777e16614f7be8ffe80315840d3',1,'ZumoRobot']]],
-  ['initializezumo_98',['InitializeZumo',['../class_zumo_robot.html#abab0ecb8026b2e7f1cf42572baa1aa09',1,'ZumoRobot']]],
-  ['initlinesensors_99',['InitLineSensors',['../class_zumo_robot.html#ad8c76a48de1026445d6576f951722c71',1,'ZumoRobot']]],
-  ['initmove_100',['InitMove',['../class_zumo_robot.html#aa8d1571bdc8ae8742611870677ebfbf9',1,'ZumoRobot']]],
-  ['initproximitysensors_101',['InitProximitySensors',['../class_zumo_robot.html#ac91120b29efd900f3a2ff1a848e445d9',1,'ZumoRobot']]],
-  ['initturn_102',['InitTurn',['../class_zumo_robot.html#ad2d7588d8234c6bdcdf1c9cabd6eac3e',1,'ZumoRobot']]]
+  ['creategui_126',['createGUI',['../gui__doxy_8java.html#ae3700d532c2ae5e2171016e13584b2d6',1,'gui_doxy.java']]],
+  ['customgui_127',['customGUI',['../zumo_g_u_i__doxy_8java.html#ac72bb8c262798ea37adbb40415f7d485',1,'zumoGUI_doxy.java']]]
 ];

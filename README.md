@@ -9,7 +9,7 @@ To open the code wiki download the project and execute openWiki.bat.<br><br>
 The GUI functions are integrated with Processing language, which is not supported by doxygen. <br>
 They need to be set with a .java file extension, which is supported in Doxygen and is practically equal to Processing.
 
-<br>
+<br><br>
 <b> Report  </b><br>
 To watch the report download the project, go to the doc directory and open the .pdf in the folder.<br>
 

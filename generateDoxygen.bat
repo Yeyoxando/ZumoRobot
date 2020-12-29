@@ -13,3 +13,5 @@ del zumoGUI\gui_doxy.java
 del zumoGUI\guiButtonFunctions_doxy.java
 del zumoGUI\guiHelp_doxy.java
 del zumoGUI\zumoGUI_doxy.java
+
+exit

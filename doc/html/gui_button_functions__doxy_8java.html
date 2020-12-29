@@ -82,10 +82,234 @@ $(document).ready(function(){initNavTree('gui_button_functions__doxy_8java.html'
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">guiButtonFunctions_doxy.java File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Manage the buttons functionality.<br  />
+(Real name -&gt; guiButtonFunctions.pde).  
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae19e7aacc4105d62859f76ac5cdf58ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gui_button_functions__doxy_8java.html#ae19e7aacc4105d62859f76ac5cdf58ab">forwardButton</a> (GEvent event)</td></tr>
+<tr class="memdesc:ae19e7aacc4105d62859f76ac5cdf58ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when forward button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Sends the zumo to advance forward until this button is released. <br  />
+ - Autonomous: Activate Zumo task 2 and moves forward detecting the borders. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop. <br  />
+ - Autonomous: Disables this button.  <a href="gui_button_functions__doxy_8java.html#ae19e7aacc4105d62859f76ac5cdf58ab">More...</a><br /></td></tr>
+<tr class="separator:ae19e7aacc4105d62859f76ac5cdf58ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6922d5f3d677ff17433b4eb6ce01e08a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gui_button_functions__doxy_8java.html#a6922d5f3d677ff17433b4eb6ce01e08a">backwardButton</a> (GEvent event)</td></tr>
+<tr class="memdesc:a6922d5f3d677ff17433b4eb6ce01e08a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when backward button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Sends the zumo to move backward until this button is released. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop.  <a href="gui_button_functions__doxy_8java.html#a6922d5f3d677ff17433b4eb6ce01e08a">More...</a><br /></td></tr>
+<tr class="separator:a6922d5f3d677ff17433b4eb6ce01e08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa05b690bdc85283ebad2680baac94aa0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gui_button_functions__doxy_8java.html#aa05b690bdc85283ebad2680baac94aa0">leftButton</a> (GEvent event)</td></tr>
+<tr class="memdesc:aa05b690bdc85283ebad2680baac94aa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when left button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Send turn left to zumo until this button is released. <br  />
+ - Autonomous: Activates an autonomous turn to the left of 90 degrees. If zumo has been warned about a room, it will be used to indicate that is on the left. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop.  <a href="gui_button_functions__doxy_8java.html#aa05b690bdc85283ebad2680baac94aa0">More...</a><br /></td></tr>
+<tr class="separator:aa05b690bdc85283ebad2680baac94aa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70f135f8248f47e082120f32576ba1f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gui_button_functions__doxy_8java.html#a70f135f8248f47e082120f32576ba1f2">rightButton</a> (GEvent event)</td></tr>
+<tr class="memdesc:a70f135f8248f47e082120f32576ba1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when right button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Send turn right to zumo until this button is released. <br  />
+ - Autonomous: Activates an autonomous turn to the right of 90 degrees. If zumo has been warned about a room, it will be used to indicate that is on the right. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop.  <a href="gui_button_functions__doxy_8java.html#a70f135f8248f47e082120f32576ba1f2">More...</a><br /></td></tr>
+<tr class="separator:a70f135f8248f47e082120f32576ba1f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ba19f0be63b6292da7d7d36c403540b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gui_button_functions__doxy_8java.html#a8ba19f0be63b6292da7d7d36c403540b">modeToggleButton</a> ()</td></tr>
+<tr class="memdesc:a8ba19f0be63b6292da7d7d36c403540b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggles the zumo mode between manual and autonomous. <br  />
+ Changes the possible actions and tasks that zumo will perform autonomously.  <a href="gui_button_functions__doxy_8java.html#a8ba19f0be63b6292da7d7d36c403540b">More...</a><br /></td></tr>
+<tr class="separator:a8ba19f0be63b6292da7d7d36c403540b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a153e4569a7c7c99c45a1380220d73ad0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gui_button_functions__doxy_8java.html#a153e4569a7c7c99c45a1380220d73ad0">roomButton</a> ()</td></tr>
+<tr class="memdesc:a153e4569a7c7c99c45a1380220d73ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the GUI with room info and made the zumo scan the found room. <br  />
+ It has to be pressed on the entrance of a room, exactly at the entrancce. <br  />
+ After pressing this button you should press later left or right to indicate the room direction.  <a href="gui_button_functions__doxy_8java.html#a153e4569a7c7c99c45a1380220d73ad0">More...</a><br /></td></tr>
+<tr class="separator:a153e4569a7c7c99c45a1380220d73ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manage the buttons functionality.<br  />
+(Real name -&gt; guiButtonFunctions.pde). </p>
+<p>Details. <br  />
+ Some buttons does different things depending if zumo is on manual or autonomous mode. You can find the descriptions below. <br  />
+ Manage the buttons functionality as gui file is autogenerated and delete comments and everything. <br  />
+ They have to be done here to use doxygen as it will be deleted in the other file. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a6922d5f3d677ff17433b4eb6ce01e08a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6922d5f3d677ff17433b4eb6ce01e08a">&#9670;&nbsp;</a></span>backwardButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void backwardButton </td>
+          <td>(</td>
+          <td class="paramtype">GEvent&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called when backward button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Sends the zumo to move backward until this button is released. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>button event received </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae19e7aacc4105d62859f76ac5cdf58ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae19e7aacc4105d62859f76ac5cdf58ab">&#9670;&nbsp;</a></span>forwardButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void forwardButton </td>
+          <td>(</td>
+          <td class="paramtype">GEvent&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called when forward button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Sends the zumo to advance forward until this button is released. <br  />
+ - Autonomous: Activate Zumo task 2 and moves forward detecting the borders. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop. <br  />
+ - Autonomous: Disables this button. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>button event received </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa05b690bdc85283ebad2680baac94aa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa05b690bdc85283ebad2680baac94aa0">&#9670;&nbsp;</a></span>leftButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void leftButton </td>
+          <td>(</td>
+          <td class="paramtype">GEvent&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called when left button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Send turn left to zumo until this button is released. <br  />
+ - Autonomous: Activates an autonomous turn to the left of 90 degrees. If zumo has been warned about a room, it will be used to indicate that is on the left. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>button event received </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8ba19f0be63b6292da7d7d36c403540b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ba19f0be63b6292da7d7d36c403540b">&#9670;&nbsp;</a></span>modeToggleButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void modeToggleButton </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Toggles the zumo mode between manual and autonomous. <br  />
+ Changes the possible actions and tasks that zumo will perform autonomously. </p>
+
+</div>
+</div>
+<a id="a70f135f8248f47e082120f32576ba1f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70f135f8248f47e082120f32576ba1f2">&#9670;&nbsp;</a></span>rightButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rightButton </td>
+          <td>(</td>
+          <td class="paramtype">GEvent&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called when right button is interacted. Different actions depending on states. <br  />
+ <b>Pressed:</b> When 'press' event is received it does the following. <br  />
+ - Manual: Send turn right to zumo until this button is released. <br  />
+ - Autonomous: Activates an autonomous turn to the right of 90 degrees. If zumo has been warned about a room, it will be used to indicate that is on the right. <br  />
+ <b>Released:</b> When 'released' event is received it does the following. <br  />
+ - Manual: Send the zumo to stop. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>button event received </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a153e4569a7c7c99c45a1380220d73ad0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a153e4569a7c7c99c45a1380220d73ad0">&#9670;&nbsp;</a></span>roomButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void roomButton </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the GUI with room info and made the zumo scan the found room. <br  />
+ It has to be pressed on the entrance of a room, exactly at the entrancce. <br  />
+ After pressing this button you should press later left or right to indicate the room direction. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

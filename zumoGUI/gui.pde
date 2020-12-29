@@ -13,6 +13,16 @@
  * Do not rename this tab!
  * =========================================================
  */
+ 
+ 
+/** @file gui_doxy.java
+ *  @brief Auto generated with G4P builder tool.\n(Real name -> guiHelp.pde). 
+ *  
+ *  Details.
+ *  \n The functions on this file are not commented as the comments will be deleted when opening the builder tool.
+ *  \n Only contains the variables for the GUI elements such as buttons or labels and it call funtions from the guiButtonFunctions file.
+*/
+
 
 public void forwardButtonClick(GButton source, GEvent event) { //_CODE_:forward_button:221725:
   

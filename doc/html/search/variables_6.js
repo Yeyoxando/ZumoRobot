@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['imu_176',['imu',['../class_zumo_robot.html#a9fa54ec2045b16103fd59fe12c7ccf7f',1,'ZumoRobot']]],
-  ['is_5fat_5fleft_177',['is_at_left',['../struct_maze_room.html#abcd57099d879153667ff4a795ecae07b',1,'MazeRoom']]]
+  ['has_5fpeople_186',['has_people',['../struct_maze_room.html#a8d729648b988a4b82932415bfe73a298',1,'MazeRoom']]]
 ];

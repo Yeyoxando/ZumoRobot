@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('struct_maze_room.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 
-<p>structure to save visited rooms data  
+<p>Saves visited rooms data for later steps.  
  <a href="struct_maze_room.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="zumo_utility_8h_source.html">zumoUtility.h</a>&gt;</code></p>
@@ -97,16 +97,20 @@ $(document).ready(function(){initNavTree('struct_maze_room.html',''); initResiza
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a576f79da73b87f081f14ad5830ab64e0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_maze_room.html#a576f79da73b87f081f14ad5830ab64e0">room_number</a> = -1</td></tr>
+<tr class="memdesc:a576f79da73b87f081f14ad5830ab64e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the number of the room when is visited, If equal to -1 is not visited.  <a href="struct_maze_room.html#a576f79da73b87f081f14ad5830ab64e0">More...</a><br /></td></tr>
 <tr class="separator:a576f79da73b87f081f14ad5830ab64e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a112f4b53de59ce0b9d31fa8724daf8ab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_maze_room.html#a112f4b53de59ce0b9d31fa8724daf8ab">room_length</a> = 0</td></tr>
+<tr class="memdesc:a112f4b53de59ce0b9d31fa8724daf8ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the room length in wheel encoder units.  <a href="struct_maze_room.html#a112f4b53de59ce0b9d31fa8724daf8ab">More...</a><br /></td></tr>
 <tr class="separator:a112f4b53de59ce0b9d31fa8724daf8ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcd57099d879153667ff4a795ecae07b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_maze_room.html#abcd57099d879153667ff4a795ecae07b">is_at_left</a> = false</td></tr>
+<tr class="memdesc:abcd57099d879153667ff4a795ecae07b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores if the room is at left when true, or at right when is false.  <a href="struct_maze_room.html#abcd57099d879153667ff4a795ecae07b">More...</a><br /></td></tr>
 <tr class="separator:abcd57099d879153667ff4a795ecae07b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d729648b988a4b82932415bfe73a298"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_maze_room.html#a8d729648b988a4b82932415bfe73a298">has_people</a> = false</td></tr>
+<tr class="memdesc:a8d729648b988a4b82932415bfe73a298"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores if the room has people or is empty.  <a href="struct_maze_room.html#a8d729648b988a4b82932415bfe73a298">More...</a><br /></td></tr>
 <tr class="separator:a8d729648b988a4b82932415bfe73a298"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>structure to save visited rooms data </p>
+<div class="textblock"><p>Saves visited rooms data for later steps. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a8d729648b988a4b82932415bfe73a298"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8d729648b988a4b82932415bfe73a298">&#9670;&nbsp;</a></span>has_people</h2>
@@ -119,6 +123,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stores if the room has people or is empty. </p>
 
 </div>
 </div>
@@ -134,6 +140,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Stores if the room is at left when true, or at right when is false. </p>
+
 </div>
 </div>
 <a id="a112f4b53de59ce0b9d31fa8724daf8ab"></a>
@@ -148,6 +156,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Stores the room length in wheel encoder units. </p>
+
 </div>
 </div>
 <a id="a576f79da73b87f081f14ad5830ab64e0"></a>
@@ -161,6 +171,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stores the number of the room when is visited, If equal to -1 is not visited. </p>
 
 </div>
 </div>

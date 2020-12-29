@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['manual_5fmode_182',['manual_mode',['../class_zumo_robot.html#a952657eac626aadb4dea97db00465954',1,'ZumoRobot::manual_mode()'],['../zumo_g_u_i__doxy_8java.html#ae1d4879efe2a1e9f71b0220aab91ae5b',1,'manual_mode():&#160;zumoGUI_doxy.java']]],
-  ['measured_5fwidth_183',['measured_width',['../class_zumo_robot.html#a72a359ae4d00ca449854184bf15c54e9',1,'ZumoRobot']]],
-  ['motors_184',['motors',['../class_zumo_robot.html#a2925da7022f5d9b2165a3c13997ec183',1,'ZumoRobot']]]
+  ['left_5fwandering_189',['left_wandering',['../class_zumo_robot.html#aea685340387150e735362059989e8cc0',1,'ZumoRobot']]],
+  ['length_5fwandering_190',['length_wandering',['../class_zumo_robot.html#a3e5a5e33f1976c0a8b794199501edbdb',1,'ZumoRobot']]],
+  ['line_5fsensors_191',['line_sensors',['../class_zumo_robot.html#a425be5768c5881f8476afc1918d1ebc4',1,'ZumoRobot']]],
+  ['line_5fsensors_5fvalues_192',['line_sensors_values',['../class_zumo_robot.html#ab324e7e35a0d3c232f88b678b47f5d26',1,'ZumoRobot']]]
 ];

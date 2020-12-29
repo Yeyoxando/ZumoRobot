@@ -90,6 +90,9 @@ $(document).ready(function(){initNavTree('zumo_utility_8h.html',''); initResizab
 <div class="title">zumoUtility.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implements <a class="el" href="class_zumo_robot.html" title="Implements all the neccesary actions for a ZumoRobot to simulate a search and rescue operation.">ZumoRobot</a> class, <a class="el" href="struct_maze_room.html" title="Saves visited rooms data for later steps.">MazeRoom</a> struct and all other components to perform the rescue op.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;Zumo32U4.h&gt;</code><br />
 </div>
 <p><a href="zumo_utility_8h_source.html">Go to the source code of this file.</a></p>
@@ -97,7 +100,7 @@ $(document).ready(function(){initNavTree('zumo_utility_8h.html',''); initResizab
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_maze_room.html">MazeRoom</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">structure to save visited rooms data  <a href="struct_maze_room.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves visited rooms data for later steps.  <a href="struct_maze_room.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_zumo_robot.html">ZumoRobot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements all the neccesary actions for a <a class="el" href="class_zumo_robot.html" title="Implements all the neccesary actions for a ZumoRobot to simulate a search and rescue operation.">ZumoRobot</a> to simulate a search and rescue operation.  <a href="class_zumo_robot.html#details">More...</a><br /></td></tr>
@@ -109,13 +112,13 @@ Macros</h2></td></tr>
 <tr class="memdesc:af651c6e598e45df0b054f5e71693e89c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default zumo speed.  <a href="zumo_utility_8h.html#af651c6e598e45df0b054f5e71693e89c">More...</a><br /></td></tr>
 <tr class="separator:af651c6e598e45df0b054f5e71693e89c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b91f6398ca0b70728d2a60eed2921b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="zumo_utility_8h.html#a8b91f6398ca0b70728d2a60eed2921b6">ZUMO_TURN_90</a>&#160;&#160;&#160;700</td></tr>
-<tr class="memdesc:a8b91f6398ca0b70728d2a60eed2921b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">indicates how much the encoders should advance to perform a 90 degree turn  <a href="zumo_utility_8h.html#a8b91f6398ca0b70728d2a60eed2921b6">More...</a><br /></td></tr>
+<tr class="memdesc:a8b91f6398ca0b70728d2a60eed2921b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates how much the encoders should advance to perform a 90 degree turn.  <a href="zumo_utility_8h.html#a8b91f6398ca0b70728d2a60eed2921b6">More...</a><br /></td></tr>
 <tr class="separator:a8b91f6398ca0b70728d2a60eed2921b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e0a8e7335a14b203f56c5b855b0df84"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="zumo_utility_8h.html#a7e0a8e7335a14b203f56c5b855b0df84">ZUMO_SIZE_MOVE</a>&#160;&#160;&#160;800</td></tr>
-<tr class="memdesc:a7e0a8e7335a14b203f56c5b855b0df84"><td class="mdescLeft">&#160;</td><td class="mdescRight">indicates how much the encoders should advance to displace an amount equal to the zumo size  <a href="zumo_utility_8h.html#a7e0a8e7335a14b203f56c5b855b0df84">More...</a><br /></td></tr>
+<tr class="memdesc:a7e0a8e7335a14b203f56c5b855b0df84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates how much the encoders should advance to displace an amount equal to the zumo size.  <a href="zumo_utility_8h.html#a7e0a8e7335a14b203f56c5b855b0df84">More...</a><br /></td></tr>
 <tr class="separator:a7e0a8e7335a14b203f56c5b855b0df84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a251d94cd24a2ca3369fc3f8eca8c19ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="zumo_utility_8h.html#a251d94cd24a2ca3369fc3f8eca8c19ae">MAX_ROOMS</a>&#160;&#160;&#160;5</td></tr>
-<tr class="memdesc:a251d94cd24a2ca3369fc3f8eca8c19ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">max number that zumo can visit (Instead of a vector or a collection structure to initialize an array)  <a href="zumo_utility_8h.html#a251d94cd24a2ca3369fc3f8eca8c19ae">More...</a><br /></td></tr>
+<tr class="memdesc:a251d94cd24a2ca3369fc3f8eca8c19ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Max number that zumo can visit (Instead of a vector or a collection structure to initialize an array).  <a href="zumo_utility_8h.html#a251d94cd24a2ca3369fc3f8eca8c19ae">More...</a><br /></td></tr>
 <tr class="separator:a251d94cd24a2ca3369fc3f8eca8c19ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -179,10 +182,15 @@ Enumerations</h2></td></tr>
 <a class="el" href="zumo_utility_8h.html#a85bbe084c21dcd60580fce80302d0c83a04091e8b307d06d913fece4f8d198e0d">kZumoScanningAction_Returning</a> = 6
 <br />
  }</td></tr>
-<tr class="memdesc:a85bbe084c21dcd60580fce80302d0c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">All the different actions that zumo performs to scan a room.  <a href="zumo_utility_8h.html#a85bbe084c21dcd60580fce80302d0c83">More...</a><br /></td></tr>
+<tr class="memdesc:a85bbe084c21dcd60580fce80302d0c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">All the different actions that zumo has to perform to scan a room.  <a href="zumo_utility_8h.html#a85bbe084c21dcd60580fce80302d0c83">More...</a><br /></td></tr>
 <tr class="separator:a85bbe084c21dcd60580fce80302d0c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implements <a class="el" href="class_zumo_robot.html" title="Implements all the neccesary actions for a ZumoRobot to simulate a search and rescue operation.">ZumoRobot</a> class, <a class="el" href="struct_maze_room.html" title="Saves visited rooms data for later steps.">MazeRoom</a> struct and all other components to perform the rescue op. </p>
+<p>Details. <br  />
+ Zumo is controlled by a state machine made with different enums. <br  />
+ It communicates via a XBee module with a GUI made for the operation, it will receive and send info. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a251d94cd24a2ca3369fc3f8eca8c19ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a251d94cd24a2ca3369fc3f8eca8c19ae">&#9670;&nbsp;</a></span>MAX_ROOMS</h2>
 
@@ -195,7 +203,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>max number that zumo can visit (Instead of a vector or a collection structure to initialize an array) </p>
+<p>Max number that zumo can visit (Instead of a vector or a collection structure to initialize an array). </p>
 
 </div>
 </div>
@@ -211,7 +219,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>indicates how much the encoders should advance to displace an amount equal to the zumo size </p>
+<p>Indicates how much the encoders should advance to displace an amount equal to the zumo size. </p>
 
 </div>
 </div>
@@ -243,7 +251,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>indicates how much the encoders should advance to perform a 90 degree turn </p>
+<p>Indicates how much the encoders should advance to perform a 90 degree turn. </p>
 
 </div>
 </div>
@@ -262,11 +270,16 @@ Enumerations</h2></td></tr>
 
 <p>Indicates all the data that could be send from the Zumo to the GUI. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702a683e571e05c62dfc730a9df21d580ba5"></a>kGUIData_SwitchManualMode&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702ab1550312ca335a9cce71dd182a572cbe"></a>kGUIData_ReachedFrontWall&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702a18ca9fe05334977d086466ff9f0e5862"></a>kGUIData_FinishedAutoRotation&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702ae65b5ff4843e383ae3ee43c796ada515"></a>kGUIData_EmptyRoom&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702aa5e370a69d7ff5ee575863107a28bf92"></a>kGUIData_ObjectInRoom&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702a683e571e05c62dfc730a9df21d580ba5"></a>kGUIData_SwitchManualMode&#160;</td><td class="fielddoc"><p>Send the GUI to return to manual mode. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702ab1550312ca335a9cce71dd182a572cbe"></a>kGUIData_ReachedFrontWall&#160;</td><td class="fielddoc"><p>Send the GUI that a border has been detected in front of the robot. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702a18ca9fe05334977d086466ff9f0e5862"></a>kGUIData_FinishedAutoRotation&#160;</td><td class="fielddoc"><p>Send the GUI that zumo has finished the autonomous rotation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702ae65b5ff4843e383ae3ee43c796ada515"></a>kGUIData_EmptyRoom&#160;</td><td class="fielddoc"><p>Send the GUI that the scanned room is empty. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a31657b4b4693ba498f681b57d82d4702aa5e370a69d7ff5ee575863107a28bf92"></a>kGUIData_ObjectInRoom&#160;</td><td class="fielddoc"><p>Send the GUI that the scanned room has objects. </p>
+</td></tr>
 </table>
 
 </div>
@@ -285,17 +298,28 @@ Enumerations</h2></td></tr>
 
 <p>Indicates all the data that could be received from the GUI to convert it to Zumo actions. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207ae11b895ced9ef7137d5599202bf85bad"></a>kZumoData_NoDataReceived&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a7925d9264e2d99c3d86b19cb1d59722b"></a>kZumoData_Stop&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a2f78f5b77e5c61b37dffe0fd154bae1e"></a>kZumoData_ManualForward&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207af4b058ff7ed9df22652465b36d721e7f"></a>kZumoData_ManualBackward&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207ae7278ba964ccd20bb65ebe2124eb5bee"></a>kZumoData_ManualTurnLeft&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207ad35471ded37646e7f3920312e7867f9e"></a>kZumoData_ManualTurnRight&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207afa67e86b2860ce321db1d947896c9352"></a>kZumoData_SwitchManualMode&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a973459a3b5a42686d05f7629d21d7c9d"></a>kZumoData_AutonomousForward&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a88783a03838cfd055a1f26a622bbdffa"></a>kZumoData_AutonomousTurnLeft&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207af2a716dd23c12a6646e9dc679a5e919e"></a>kZumoData_AutonomousTurnRight&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a50d25c1fa4c8332a66cdee44d24b95a3"></a>kZumoData_FoundRoom&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207ae11b895ced9ef7137d5599202bf85bad"></a>kZumoData_NoDataReceived&#160;</td><td class="fielddoc"><p>Task 0. No data has been received. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a7925d9264e2d99c3d86b19cb1d59722b"></a>kZumoData_Stop&#160;</td><td class="fielddoc"><p>Task 1. Tell the zumo to stop. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a2f78f5b77e5c61b37dffe0fd154bae1e"></a>kZumoData_ManualForward&#160;</td><td class="fielddoc"><p>Task 1. Tell the zumo to go forward manually. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207af4b058ff7ed9df22652465b36d721e7f"></a>kZumoData_ManualBackward&#160;</td><td class="fielddoc"><p>Task 1. Tell the zumo to go backward manually. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207ae7278ba964ccd20bb65ebe2124eb5bee"></a>kZumoData_ManualTurnLeft&#160;</td><td class="fielddoc"><p>Task 1. Tell the zumo to turn left manually. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207ad35471ded37646e7f3920312e7867f9e"></a>kZumoData_ManualTurnRight&#160;</td><td class="fielddoc"><p>Task 1. Tell the zumo to turn right manually. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207afa67e86b2860ce321db1d947896c9352"></a>kZumoData_SwitchManualMode&#160;</td><td class="fielddoc"><p>Task 0. Switch manual and autonomous mode. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a973459a3b5a42686d05f7629d21d7c9d"></a>kZumoData_AutonomousForward&#160;</td><td class="fielddoc"><p>Task 2. Tell the zumo to move autonomous forward. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a88783a03838cfd055a1f26a622bbdffa"></a>kZumoData_AutonomousTurnLeft&#160;</td><td class="fielddoc"><p>Tasks 3/4 &amp; 5. Turn left autonomously or scan a room in the left. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207af2a716dd23c12a6646e9dc679a5e919e"></a>kZumoData_AutonomousTurnRight&#160;</td><td class="fielddoc"><p>Tasks 3/4 &amp; 5. Turn right autonomously or scan a room in the right. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2b4260194d86ac0ac5aaf3d7f71fe207a50d25c1fa4c8332a66cdee44d24b95a3"></a>kZumoData_FoundRoom&#160;</td><td class="fielddoc"><p>Task 5. Starts scanning a room. </p>
+</td></tr>
 </table>
 
 </div>
@@ -314,9 +338,12 @@ Enumerations</h2></td></tr>
 
 <p>Enumerator to indicate zumo motors. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a19db6daeabe1d94f552a98894eed45b8ae405383b7a3517887e3780ec05df0be0"></a>kZumoMotors_Both&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a19db6daeabe1d94f552a98894eed45b8ad57ec3185de6bdf100d718d7838c6293"></a>kZumoMotors_Right&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a19db6daeabe1d94f552a98894eed45b8a73be5427f9399ad68b14c0df427822ee"></a>kZumoMotors_Left&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a19db6daeabe1d94f552a98894eed45b8ae405383b7a3517887e3780ec05df0be0"></a>kZumoMotors_Both&#160;</td><td class="fielddoc"><p>Both motors. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a19db6daeabe1d94f552a98894eed45b8ad57ec3185de6bdf100d718d7838c6293"></a>kZumoMotors_Right&#160;</td><td class="fielddoc"><p>Right motor. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a19db6daeabe1d94f552a98894eed45b8a73be5427f9399ad68b14c0df427822ee"></a>kZumoMotors_Left&#160;</td><td class="fielddoc"><p>Left motor. </p>
+</td></tr>
 </table>
 
 </div>
@@ -333,15 +360,22 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>All the different actions that zumo performs to scan a room. </p>
+<p>All the different actions that zumo has to perform to scan a room. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83ad8915d9108cb2c48d4ea0b63568cd31f"></a>kZumoScanningAction_None&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a2c2dd25883a07766937c638f0011def5"></a>kZumoScanningAction_Entering&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a02c2b91c66e02d6d3b6a7366beddafbd"></a>kZumoScanningAction_Positioning&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83ab62c50796c038e7a0ca6d5c826604351"></a>kZumoScanningAction_MeasuringLength&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83ab7e6ee2814c0307ee8002761eb17eac9"></a>kZumoScanningAction_MeasuringWidth&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a5db0a53ebb20633619142a24a2902ea1"></a>kZumoScanningAction_Wandering&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a04091e8b307d06d913fece4f8d198e0d"></a>kZumoScanningAction_Returning&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83ad8915d9108cb2c48d4ea0b63568cd31f"></a>kZumoScanningAction_None&#160;</td><td class="fielddoc"><p>Zumo hasn't started scanning the room. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a2c2dd25883a07766937c638f0011def5"></a>kZumoScanningAction_Entering&#160;</td><td class="fielddoc"><p>Zumo is entering to the room </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a02c2b91c66e02d6d3b6a7366beddafbd"></a>kZumoScanningAction_Positioning&#160;</td><td class="fielddoc"><p>Zumo is positioning himself to scan the room. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83ab62c50796c038e7a0ca6d5c826604351"></a>kZumoScanningAction_MeasuringLength&#160;</td><td class="fielddoc"><p>Zumo is measuring the length of the room. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83ab7e6ee2814c0307ee8002761eb17eac9"></a>kZumoScanningAction_MeasuringWidth&#160;</td><td class="fielddoc"><p>Zumo is measuring the width of the room. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a5db0a53ebb20633619142a24a2902ea1"></a>kZumoScanningAction_Wandering&#160;</td><td class="fielddoc"><p>Zumo is scanning the rest of the room. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85bbe084c21dcd60580fce80302d0c83a04091e8b307d06d913fece4f8d198e0d"></a>kZumoScanningAction_Returning&#160;</td><td class="fielddoc"><p>Zumo is returning to the corridor after sanning the room. </p>
+</td></tr>
 </table>
 
 </div>
@@ -360,13 +394,20 @@ Enumerations</h2></td></tr>
 
 <p>Enumerator to indicate current zumo state. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270aeb848706c3bdc1cb293cb81b1e0e89ef"></a>kZumoState_Stopped&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270ae816276ba37ef857d444d084a0a3dc81"></a>kZumoState_Forwarding&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270a1e9cc7a626f328bf00fd42ea3ec58011"></a>kZumoState_Backwarding&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270aca1daa90a351e8d144c1529b69b8b6d0"></a>kZumoState_TurningLeft&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270ad70afbefbc3d6da10993bf2e8182f923"></a>kZumoState_TurningRight&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270ac6a63a0aaf2448a5b297a22645538d42"></a>kZumoState_ScanningRoom&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270a2edc063a179cd526c9e5486d15a6de88"></a>kZumoState_Returning&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270aeb848706c3bdc1cb293cb81b1e0e89ef"></a>kZumoState_Stopped&#160;</td><td class="fielddoc"><p>Zumo is stopped. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270ae816276ba37ef857d444d084a0a3dc81"></a>kZumoState_Forwarding&#160;</td><td class="fielddoc"><p>Zumo is moving forward. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270a1e9cc7a626f328bf00fd42ea3ec58011"></a>kZumoState_Backwarding&#160;</td><td class="fielddoc"><p>Zumo is moving backward. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270aca1daa90a351e8d144c1529b69b8b6d0"></a>kZumoState_TurningLeft&#160;</td><td class="fielddoc"><p>Zumo is turning left. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270ad70afbefbc3d6da10993bf2e8182f923"></a>kZumoState_TurningRight&#160;</td><td class="fielddoc"><p>Zumo is turning right. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270ac6a63a0aaf2448a5b297a22645538d42"></a>kZumoState_ScanningRoom&#160;</td><td class="fielddoc"><p>Zumo is scanning a room. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf0e6c4b8f68036dd10a21eb9132b270a2edc063a179cd526c9e5486d15a6de88"></a>kZumoState_Returning&#160;</td><td class="fielddoc"><p>Zumo is returning to base. </p>
+</td></tr>
 </table>
 
 </div>

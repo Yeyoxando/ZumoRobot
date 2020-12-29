@@ -28,8 +28,6 @@ void ZumoRobot::InitializeZumo(){
 
   current_state = kZumoState_Stopped;
   current_scanning_action = kZumoScanningAction_None;
-  current_left_speed = 0;
-  current_right_speed = 0;
   current_left_encoder = 0;
   current_right_encoder = 0;
   desired_left_encoder = 0;
@@ -163,18 +161,14 @@ void ZumoRobot::SetMotorSpeed(int new_speed, ZumoMotors zumo_motors){
   switch(zumo_motors){
   case kZumoMotors_Both:{
     motors.setSpeeds(new_speed, new_speed);
-    current_right_speed = new_speed;
-    current_left_speed = new_speed;
     break;
   }
   case kZumoMotors_Right:{
     motors.setRightSpeed(new_speed);
-    current_right_speed = new_speed;
     break;
   }
   case kZumoMotors_Left:{
     motors.setLeftSpeed(new_speed);
-    current_left_speed = new_speed;
     break;
   }
   default:{

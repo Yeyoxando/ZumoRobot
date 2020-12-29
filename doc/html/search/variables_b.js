@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['serialport_188',['serialPort',['../zumo_g_u_i__doxy_8java.html#a86e5c2cd7d9c1b52f4eb64d637fd6e1e',1,'zumoGUI_doxy.java']]]
+  ['room_5flength_197',['room_length',['../struct_maze_room.html#a112f4b53de59ce0b9d31fa8724daf8ab',1,'MazeRoom']]],
+  ['room_5fnumber_198',['room_number',['../struct_maze_room.html#a576f79da73b87f081f14ad5830ab64e0',1,'MazeRoom']]]
 ];
